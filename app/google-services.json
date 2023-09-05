@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "191547132945",
+    "project_id": "bitcointicker-2a68d",
+    "storage_bucket": "bitcointicker-2a68d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191547132945:android:2d1a9123213fa2b00975b0",
+        "android_client_info": {
+          "package_name": "com.example.bitcointicker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191547132945-6sa2gpemsk8mvrh8pj6527e5qbsghmkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM48x1Z05nb6E9MW_QCgqfO_fGesvwTwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191547132945-6sa2gpemsk8mvrh8pj6527e5qbsghmkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
