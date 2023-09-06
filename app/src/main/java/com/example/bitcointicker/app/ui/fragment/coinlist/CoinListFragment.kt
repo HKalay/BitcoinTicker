@@ -1,22 +1,26 @@
 package com.example.bitcointicker.app.ui.fragment.coinlist
 
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseFragment
+import com.example.bitcointicker.app.ui.activity.coindetail.CoinDetailActivity
 import com.example.bitcointicker.app.ui.fragment.coinlist.viewmodel.CoinListViewModel
 import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapter
+import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
 import com.example.bitcointicker.component.recyclerview.helper.setup
 import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
 import com.example.bitcointicker.core.extensions.gone
 import com.example.bitcointicker.core.extensions.visible
+import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_coin_list.errorView
 import kotlinx.android.synthetic.main.fragment_coin_list.etSearch
 import kotlinx.android.synthetic.main.fragment_coin_list.imgClearTextSearch
 import kotlinx.android.synthetic.main.fragment_coin_list.loadingProgressCoins
@@ -47,7 +51,7 @@ class CoinListFragment : BaseFragment() {
         editTextWatchListener()
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         rvCoinList.setup(
             adapter = adapterPageList.getAdapter(),
             layoutManager = LinearLayoutManager(
@@ -57,10 +61,28 @@ class CoinListFragment : BaseFragment() {
             )
         )
     }
-    private fun initClickListener(){
+
+    private fun initClickListener() {
         imgClearTextSearch.setOnClickListener {
             etSearch.text?.clear()
         }
+
+        adapterPageList.getAdapter().itemViewClickListener =
+            { view: View, item: DisplayItem, _: Int ->
+
+                when (item) {
+                    is CoinItemDTO -> {
+                        if (view.id == R.id.rootItemCoinCard) {
+                            val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
+                            intent.putExtra(
+                                IntentPutData.COIN_ID.value,
+                                item.coinResponseDTO.id
+                            )
+                            startActivity(intent)
+                        }
+                    }
+                }
+            }
     }
 
     private fun getCoinList() {
@@ -69,8 +91,7 @@ class CoinListFragment : BaseFragment() {
             viewModel.getCoinList().collect { result ->
                 when (result) {
                     is DataFetchResult.Failure -> {
-                        //TODO hata durumunda progress gone olup bg de null yazısı gözükecek
-                        Log.i("Merhaba_result", "hata")
+                        visibleView(view = errorView)
                     }
 
                     is DataFetchResult.Progress -> {
@@ -78,7 +99,7 @@ class CoinListFragment : BaseFragment() {
                     }
 
                     is DataFetchResult.Success -> {
-                        result.data.forEach{
+                        result.data.forEach {
                             coinList.add(element = CoinItemDTO(coinResponseDTO = it))
                         }
 
@@ -127,7 +148,7 @@ class CoinListFragment : BaseFragment() {
     }
 
 
-    private fun visibleView(view:View){
+    private fun visibleView(view: View) {
         loadingProgressCoins.gone()
         rvSuccessView.gone()
 

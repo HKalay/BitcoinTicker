@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_12_dp_app_second_color">
+            android:background="@drawable/shape_12dp_app_second_color">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etEmail"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_12_dp_app_second_color">
+            android:background="@drawable/shape_12dp_app_second_color">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPassword"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_12_dp_cyan_color"
+            android:background="@drawable/shape_12dp_cyan_color"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="horizontal">
