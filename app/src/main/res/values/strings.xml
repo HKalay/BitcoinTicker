@@ -26,4 +26,7 @@
 
     <string name="description_not_found">Description not found</string>
     <string name="hash_algorithm_not_found">Hashing algorithm not found</string>
+
+    <string name="page_refresh_frequency">Page refresh frequency</string>
+    <string name="calculate_second">Calculations are made in seconds</string>
 </resources>
