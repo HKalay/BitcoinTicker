@@ -1,8 +1,8 @@
 package com.example.bitcointicker.component.ui
 
 import com.example.bitcointicker.component.constant.RecyclerviewAdapterConstant
-import com.example.bitcointicker.component.utils.recyclerview.DefaultDisplayItemComperator
-import com.example.bitcointicker.component.utils.recyclerview.RecyclerViewAdapter
+import com.example.bitcointicker.core.utils.recyclerview.DefaultDisplayItemComperator
+import com.example.bitcointicker.core.utils.recyclerview.RecyclerViewAdapter
 
 class RecyclerviewAdapter {
 
