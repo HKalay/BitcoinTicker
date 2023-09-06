@@ -28,6 +28,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/cyan"
+                android:textSize="14sp"
                 app:fontFamily="@font/inter_bold"
                 tools:text="Symbol" />
 
@@ -35,10 +36,11 @@
                 android:id="@+id/tvItemCoinName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:layout_marginTop="4dp"
                 android:textColor="@color/white"
+                android:textSize="14sp"
                 app:fontFamily="@font/inter_semibold"
                 tools:text="Name" />
 

@@ -73,12 +73,13 @@ class CoinListFragment : BaseFragment() {
                 when (item) {
                     is CoinItemDTO -> {
                         if (view.id == R.id.rootItemCoinCard) {
-                            val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
+                            /*val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
                             intent.putExtra(
                                 IntentPutData.COIN_ID.value,
                                 item.coinResponseDTO.id
                             )
-                            startActivity(intent)
+                            startActivity(intent)*/
+                            //TODO hata çıkması durumunda uyarı alert dialog çıkacak
                         }
                     }
                 }
@@ -146,7 +147,6 @@ class CoinListFragment : BaseFragment() {
             adapterPageList.getAdapter().updateAllItems(coinList)
         }
     }
-
 
     private fun visibleView(view: View) {
         loadingProgressCoins.gone()

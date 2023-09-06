@@ -18,4 +18,8 @@
     <string name="no_internet">There is no internet connection</string>
 
     <string name="coin_detail">Coin Detail</string>
+
+    <string name="price">Price</string>
+    <string name="change_24_hours">Change in the last 24 hours</string>
+    <string name="hashinga_algorithm">Hashing Algorithm</string>
 </resources>
