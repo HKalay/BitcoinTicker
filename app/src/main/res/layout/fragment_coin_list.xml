@@ -1,15 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout class="androidx.appcompat.app.AlertController$RecycleListView" xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout class="androidx.appcompat.app.AlertController$RecycleListView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.fragment.coinlist.CoinListFragment">
+    tools:context=".app.ui.fragment.coinlist.CoinListFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <TextView
-        android:layout_centerInParent="true"
+    <RelativeLayout
+        android:id="@+id/rvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_12_dp_app_second_color">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@+id/imgClearTextSearch"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@color/cyan"
+            android:textSize="14sp"
+            app:fontFamily="@font/inter_medium" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgClearTextSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_clear_text"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingProgressCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="coin list" />
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCoins"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rvSearch"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_layout_coins" />
 
 </RelativeLayout>
