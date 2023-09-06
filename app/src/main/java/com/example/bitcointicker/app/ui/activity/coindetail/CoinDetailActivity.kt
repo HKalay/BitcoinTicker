@@ -124,25 +124,26 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             timeRenewal.findViewById(R.id.rootParent)!!
         val swRenewalIsActive: SwitchCompat? = timeRenewal.findViewById(R.id.swRenewalActive)
         val etRenewal: AppCompatEditText? = timeRenewal.findViewById(R.id.etRefreshInterval)
-        val btnYes: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalYes)
-        val btnNo: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalNo)
-
+        val btnSave: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalSave)
+        val btnCancel: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalCancel)
 
         swRenewalIsActive?.isChecked = sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
         etRenewal?.setText(sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString())
 
+        swRenewalIsActive?.setOnCheckedChangeListener { _, isChecked ->
+            sharedPrefManager.setIsCoinRefreshIsActive(
+                coindId = coinId,
+                value = isChecked
+            )
+            swRenewalIsActive.isChecked = isChecked
+        }
 
-        btnYes?.setOnClickListener {
+        btnSave?.setOnClickListener {
             if (etRenewal?.text.isNullOrEmpty() || etRenewal?.text.toString().toInt() == 0
             ) {
                 showAlertDialog(resources.getString(R.string.second_not_empty))
                 return@setOnClickListener
             }
-
-            sharedPrefManager.setIsCoinRefreshIsActive(
-                coindId = coinId,
-                value = swRenewalIsActive?.isChecked!!
-            )
 
             sharedPrefManager.setIsCoinRefreshTime(
                 coindId = coinId,
@@ -150,7 +151,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             )
             timeRenewal.dismiss()
         }
-        btnNo?.setOnClickListener {
+        btnCancel?.setOnClickListener {
             timeRenewal.dismiss()
         }
         timeRenewal.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -203,6 +204,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                     }
 
                     is DataFetchResult.Success -> {
+                        Log.i("Merhaba", "istek atıldı")
                         setupUI(coinDetailResponseDTO = result.data)
                     }
                 }

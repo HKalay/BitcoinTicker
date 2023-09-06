@@ -20,7 +20,7 @@ class SharedPrefManager(context: Context) {
     }
 
     fun getIsCoinRefreshTime(coindId: String): Int {
-        return localPrefManager.pull(key = COIN_REFRESH_TIME + "_" + coindId, 0)
+        return localPrefManager.pull(key = COIN_REFRESH_TIME + "_" + coindId, 5)
     }
 
     fun setIsCoinRefreshTime(coindId: String, value: Int) {
