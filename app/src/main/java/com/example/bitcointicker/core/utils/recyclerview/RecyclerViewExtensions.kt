@@ -1,9 +1,8 @@
-package com.example.bitcointicker.component.utils
+package com.example.bitcointicker.core.utils.recyclerview
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bitcointicker.component.utils.recyclerview.RecyclerViewAdapter
 
 @SuppressLint("WrongConstant")
 fun RecyclerView.setup(

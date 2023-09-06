@@ -3,7 +3,7 @@ package com.example.bitcointicker.component.ui.horizontalrecyclerview
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import com.example.bitcointicker.component.constant.RecyclerviewAdapterConstant
-import com.example.bitcointicker.component.utils.recyclerview.DisplayItem
+import com.example.bitcointicker.core.utils.recyclerview.DisplayItem
 
 @Parcelize
 data class HorizontalRecyclerDTO(
