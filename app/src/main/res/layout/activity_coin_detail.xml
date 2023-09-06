@@ -48,8 +48,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
         android:layout_above="@id/rvRefreshInterval"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -225,17 +225,19 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_toStartOf="@id/tvAddUpdateTime"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="@string/page_refresh_frequency"
                 android:textColor="@color/cyan"
                 android:textSize="16sp"
-                app:fontFamily="@font/inter_bold" />
+                app:fontFamily="@font/inter_semibold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvPageRefreshInterval"
@@ -243,12 +245,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="@string/calculate_second"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp"
-                app:fontFamily="@font/inter_semibold" />
+                app:fontFamily="@font/inter_medium" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--TODO süre yoksa eklenmesi gerekiyor yazısı olacak ve gri olacak. Eğer eklenmişse süre olacak ve beyaz olacak. En az 15 saniye eklnmesi lazım. uyarı olacak. Eğer yoksa add butonu varsa update butonu olacak. Çıkan bottom navigation içerisindede switch olacak. Sağ üst taraftata açık olduğunda yeşil kapalı olduğunda kırmızı olacak.-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAddUpdateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/update"
+            android:textColor="@color/cyan"
+            app:fontFamily="@font/inter_bold" />
 
     </RelativeLayout>
 
