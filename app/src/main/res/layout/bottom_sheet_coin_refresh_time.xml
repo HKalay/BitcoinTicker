@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rootParent"
     android:background="@drawable/shape_bottom_sheet"
     android:gravity="center"
     android:orientation="vertical">
@@ -19,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
             android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@id/swRefreshActive"
+            android:layout_toStartOf="@id/swRenewalActive"
             android:text="@string/refresh_active_status"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -27,7 +28,7 @@
 
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/swRefreshActive"
+            android:id="@+id/swRenewalActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -38,11 +39,11 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="16dp"
         android:id="@+id/rvInputRefreshInterval"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/shape_12dp_app_second_color">
 
@@ -53,11 +54,10 @@
             android:layout_centerInParent="true"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@+id/imgClearTextSearch"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/time_for_renewal"
-            android:inputType="text"
+            android:inputType="number"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@android:color/darker_gray"
@@ -65,26 +65,14 @@
             android:textSize="14sp"
             app:fontFamily="@font/inter_medium" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgClearTextSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_clear_text"
-            tools:visibility="visible" />
-
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="16dp"
         android:id="@+id/btnRefreshIntervalYes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/shape_12dp_cyan_color"
         android:foreground="?android:attr/selectableItemBackground"

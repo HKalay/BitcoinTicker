@@ -4,7 +4,7 @@ import android.content.Context
 
 private const val IS_LOGIN = "is_login"
 
-private const val COIN_REFRESH = "coin_refresh"
+private const val COIN_REFRESH_TIME = "coin_refresh"
 private const val COIN_REFRESH_IS_ACTIVE = "coin_refresh_is_active"
 
 class SharedPrefManager(context: Context) {
@@ -19,19 +19,19 @@ class SharedPrefManager(context: Context) {
         localPrefManager.push(key = IS_LOGIN, value = value)
     }
 
-    fun getIsCoinRefreshTime(): Int {
-        return localPrefManager.pull(key = COIN_REFRESH, 0)
+    fun getIsCoinRefreshTime(coindId: String): Int {
+        return localPrefManager.pull(key = COIN_REFRESH_TIME + "_" + coindId, 0)
     }
 
-    fun setIsCoinRefreshTime(value: Int) {
-        localPrefManager.push(key = COIN_REFRESH, value = value)
+    fun setIsCoinRefreshTime(coindId: String, value: Int) {
+        localPrefManager.push(key = COIN_REFRESH_TIME + "_" + coindId, value = value)
     }
 
-    fun getIsCoinRefreshIsActive(): Boolean {
-        return localPrefManager.pull(key = COIN_REFRESH_IS_ACTIVE, false)
+    fun getIsCoinRefreshIsActive(coindId: String): Boolean {
+        return localPrefManager.pull(key = COIN_REFRESH_IS_ACTIVE + "_" + coindId, false)
     }
 
-    fun setIsCoinRefreshIsActive(value: Boolean) {
-        localPrefManager.push(key = COIN_REFRESH_IS_ACTIVE, value = value)
+    fun setIsCoinRefreshIsActive(coindId: String, value: Boolean) {
+        localPrefManager.push(key = COIN_REFRESH_IS_ACTIVE + "_" + coindId, value = value)
     }
 }

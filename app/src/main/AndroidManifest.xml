@@ -25,7 +25,8 @@
         </activity>
         <activity
             android:name=".app.ui.activity.coindetail.CoinDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".app.ui.activity.login.LoginActivity"
             android:exported="false" />
