@@ -1,4 +1,4 @@
-package com.example.bitcointicker.core.utils.recyclerview
+package com.example.bitcointicker.component.recyclerview.helper
 
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class RecyclerViewAdapter constructor(
-     val items: MutableList<DisplayItem> = ArrayList(),
+    val items: MutableList<DisplayItem> = ArrayList(),
     private val selectedItems: MutableList<DisplayItem> = ArrayList(),
     private val itemComperator: DisplayItemComperator,
     private val viewHolderFactoryMap: Map<Int, ViewHolderFactory>,

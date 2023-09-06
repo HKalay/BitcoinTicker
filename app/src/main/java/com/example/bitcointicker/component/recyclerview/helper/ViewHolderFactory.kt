@@ -1,4 +1,4 @@
-package com.example.bitcointicker.core.utils.recyclerview
+package com.example.bitcointicker.component.recyclerview.helper
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

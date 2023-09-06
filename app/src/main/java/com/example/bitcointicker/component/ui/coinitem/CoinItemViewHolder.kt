@@ -7,10 +7,10 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bitcointicker.R
-import com.example.bitcointicker.core.utils.recyclerview.DisplayItem
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolder
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolderBinder
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolderFactory
+import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolder
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolderBinder
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolderFactory
 import javax.inject.Inject
 
 class CoinItemViewHolder(val view: View) : ViewHolder<CoinItemDTO>(view) {

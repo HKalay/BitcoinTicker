@@ -1,4 +1,4 @@
-package com.example.bitcointicker.core.utils.recyclerview
+package com.example.bitcointicker.component.recyclerview.helper
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager

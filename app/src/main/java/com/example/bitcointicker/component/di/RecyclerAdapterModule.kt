@@ -1,6 +1,6 @@
 package com.example.bitcointicker.component.di
 
-import com.example.bitcointicker.component.ui.RecyclerviewAdapter
+import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

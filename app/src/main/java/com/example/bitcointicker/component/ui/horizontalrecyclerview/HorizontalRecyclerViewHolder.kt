@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
 import com.example.bitcointicker.R
-import com.example.bitcointicker.component.constant.RecyclerviewAdapterConstant
-import com.example.bitcointicker.core.utils.recyclerview.DefaultDisplayItemComperator
-import com.example.bitcointicker.core.utils.recyclerview.DisplayItem
-import com.example.bitcointicker.core.utils.recyclerview.RecyclerViewAdapter
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolder
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolderBinder
-import com.example.bitcointicker.core.utils.recyclerview.ViewHolderFactory
-import com.example.bitcointicker.core.utils.recyclerview.setup
+import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapterConstant
+import com.example.bitcointicker.component.recyclerview.helper.DefaultDisplayItemComperator
+import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
+import com.example.bitcointicker.component.recyclerview.helper.RecyclerViewAdapter
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolder
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolderBinder
+import com.example.bitcointicker.component.recyclerview.helper.ViewHolderFactory
+import com.example.bitcointicker.component.recyclerview.helper.setup
 import javax.inject.Inject
 
 class HorizontalRecyclerViewHolder(view: View) : ViewHolder<HorizontalRecyclerDTO>(view) {

@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseFragment
 import com.example.bitcointicker.app.ui.fragment.coinlist.viewmodel.CoinListViewModel
-import com.example.bitcointicker.component.ui.RecyclerviewAdapter
+import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapter
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

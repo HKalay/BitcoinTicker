@@ -1,9 +1,9 @@
 package com.example.bitcointicker.component.ui.coinitem
 
 import android.os.Parcelable
-import com.example.bitcointicker.component.constant.RecyclerviewAdapterConstant
+import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapterConstant
 import kotlinx.android.parcel.Parcelize
-import com.example.bitcointicker.core.utils.recyclerview.DisplayItem
+import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
 import com.example.bitcointicker.data.coin.CoinDTO
 
 @Parcelize

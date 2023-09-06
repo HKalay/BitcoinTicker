@@ -1,4 +1,4 @@
-package com.example.bitcointicker.component.constant
+package com.example.bitcointicker.component.recyclerview
 
 import com.example.bitcointicker.component.ui.coinitem.CoinItemViewHolder
 import com.example.bitcointicker.component.ui.horizontalrecyclerview.HorizontalRecyclerViewHolder
