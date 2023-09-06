@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="@string/hashinga_algorithm"
+                        android:text="@string/hashing_algorithm"
                         android:textColor="@color/cyan"
                         android:textSize="16sp"
                         app:fontFamily="@font/inter_bold" />
