@@ -1,7 +1,10 @@
 package com.example.bitcointicker.data.coin
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CoinDTO(
     @SerializedName("id")
     var id: String,
@@ -9,4 +12,4 @@ data class CoinDTO(
     var symbol: String,
     @SerializedName("name")
     var name: String
-)
+):Parcelable
