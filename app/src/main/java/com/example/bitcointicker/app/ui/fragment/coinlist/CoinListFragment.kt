@@ -168,8 +168,9 @@ class CoinListFragment : BaseFragment() {
                 ) {
                     filteredList.add(it)
                 }
-                adapterPageList.getAdapter().updateAllItems(filteredList)
             }
+
+            adapterPageList.getAdapter().updateAllItems(filteredList)
         } else {
             adapterPageList.getAdapter().updateAllItems(coinList)
         }
