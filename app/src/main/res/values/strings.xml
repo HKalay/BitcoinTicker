@@ -22,4 +22,8 @@
     <string name="price">Price</string>
     <string name="change_24_hours">Change in the last 24 hours</string>
     <string name="hashinga_algorithm">Hashing Algorithm</string>
+    <string name="description">Description</string>
+
+    <string name="description_not_found">Description not found</string>
+    <string name="hash_algorithm_not_found">Hashing algorithm not found</string>
 </resources>

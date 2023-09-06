@@ -126,14 +126,13 @@ class CoinListFragment : BaseFragment() {
 
                     is DataFetchResult.Success -> {
                         loadingProgressCoins.gone()
-                        Log.i("Merhaba", result.data.toString())
-
-                        /*val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
-                       intent.putExtra(
-                           IntentPutData.COIN_ID.value,
-                           item.coinResponseDTO.id
-                       )
-                       startActivity(intent)*/
+                        val intent =
+                            Intent(requireActivity(), CoinDetailActivity::class.java)
+                        intent.putExtra(
+                            IntentPutData.COIN_DETAIL.value,
+                            result.data
+                        )
+                        startActivity(intent)
                     }
                 }
             }

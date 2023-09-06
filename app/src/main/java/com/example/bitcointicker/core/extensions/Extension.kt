@@ -92,8 +92,25 @@ fun ImageView.loadImage(url: String) {
 }
 
 fun ImageView.loadImageCircle(url: String) {
-    Glide.with(context)
+
+    //TODO shimmer ile birlikte circle çalışmıyor.
+    val shimmer = Shimmer.AlphaHighlightBuilder()
+        .setDuration(1200)
+        .setBaseAlpha(0.7f)
+        .setHighlightAlpha(0.6f)
+        .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+        .setAutoStart(true)
+        .build()
+
+    val shimmerDrawable = ShimmerDrawable().apply {
+        setShimmer(shimmer)
+    }
+
+    Glide.with(this)
         .load(url)
+        .skipMemoryCache(true)
+        .placeholder(shimmerDrawable)
+        .transition(DrawableTransitionOptions.withCrossFade())
         .apply(RequestOptions.circleCropTransform())
         .into(this)
 }
