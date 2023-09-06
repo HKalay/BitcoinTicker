@@ -82,4 +82,7 @@ dependencies {
     // Looping Layout
     implementation "com.github.beksomega:loopinglayout:0.4.1"
 
+    // Shimmer Effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }

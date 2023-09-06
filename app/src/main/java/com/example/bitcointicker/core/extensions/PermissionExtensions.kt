@@ -1,4 +1,4 @@
-package com.example.bitcointicker
+package com.example.bitcointicker.core.extensions
 
 import android.Manifest
 import android.os.Build

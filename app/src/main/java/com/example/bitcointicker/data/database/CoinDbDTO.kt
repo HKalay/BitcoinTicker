@@ -17,9 +17,9 @@ data class CoinDbDTO(
     var id: Int = 0,
 
     @ColumnInfo(name = "coin_id")
-    var coinId: String,
+    var coinId: String, // Aynı idli veri kayıt edilmek istenildiği zaman replace etmek için eklendi.
 
     @ColumnInfo(name = "coin_dto")
-    var instagramPostUIModel: CoinDTO
+    var coinDTO: CoinDTO
 ): Parcelable
 
