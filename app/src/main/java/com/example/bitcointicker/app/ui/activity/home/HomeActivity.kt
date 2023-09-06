@@ -3,13 +3,16 @@ package com.example.bitcointicker.app.ui.activity.home
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.core.extensions.gone
+import com.example.bitcointicker.core.extensions.permissionPostNotificationAllGranted
 import com.example.bitcointicker.core.extensions.visible
 import kotlinx.android.synthetic.main.activity_home.bottomNavigation
 import kotlinx.android.synthetic.main.activity_home.containerCoinList
 import kotlinx.android.synthetic.main.activity_home.containerMyFavoriteCoins
+import kotlinx.coroutines.launch
 
 private const val COINS_PAGE = "coins"
 private const val FAVORITES_PAGE = "favorites_page"
@@ -20,6 +23,12 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private var clickedPage = COINS_PAGE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            if (permissionPostNotificationAllGranted()) {
+                return@launch
+            }
+        }
 
         showFragment(fragmentContainerView = containerCoinList)
         bottomNavigationClick()
