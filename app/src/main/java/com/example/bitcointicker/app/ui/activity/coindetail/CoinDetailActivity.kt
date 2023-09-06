@@ -203,7 +203,6 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                     }
 
                     is DataFetchResult.Success -> {
-                        Log.i("Merhaba", "istek atıldı")
                         setupUI(coinDetailResponseDTO = result.data)
                     }
                 }
@@ -216,6 +215,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         if (!sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
             if (scheduledExecutor != null)
                 scheduledExecutor?.shutdown()
+            return
         }
 
         scheduledExecutor = Executors.newScheduledThreadPool(1)
