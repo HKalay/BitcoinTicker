@@ -2,6 +2,7 @@ package com.example.bitcointicker.core.extensions
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
@@ -14,11 +15,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.io.Serializable
 
 fun Context.isNetworkConnected(): Boolean {
@@ -93,7 +98,6 @@ fun ImageView.loadImage(url: String) {
 
 fun ImageView.loadImageCircle(url: String) {
 
-    //TODO shimmer ile birlikte circle çalışmıyor.
     val shimmer = Shimmer.AlphaHighlightBuilder()
         .setDuration(1200)
         .setBaseAlpha(0.7f)
@@ -110,9 +114,19 @@ fun ImageView.loadImageCircle(url: String) {
         .load(url)
         .skipMemoryCache(true)
         .placeholder(shimmerDrawable)
-        .transition(DrawableTransitionOptions.withCrossFade())
+        .transform(RoundedCornersTransformation(360, 0, RoundedCornersTransformation.CornerType.ALL))
         .apply(RequestOptions.circleCropTransform())
-        .into(this)
+        .into(object : CustomTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                val circularBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, (resource as BitmapDrawable).bitmap)
+                circularBitmapDrawable.isCircular = true
+                setImageDrawable(circularBitmapDrawable)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+                // Resim yükleme işlemi tamamlandığında ne yapılacağını belirtin (isteğe bağlı)
+            }
+        })
 }
 
 fun Context.getAttrDrawable(image: Int): Drawable {
