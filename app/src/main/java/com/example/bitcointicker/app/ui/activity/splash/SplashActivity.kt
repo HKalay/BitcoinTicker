@@ -1,13 +1,12 @@
-package com.example.bitcointicker.app.ui.splash
+package com.example.bitcointicker.app.ui.activity.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
-import com.example.bitcointicker.app.ui.HomeActivity
-import com.example.bitcointicker.app.ui.login.LoginActivity
+import com.example.bitcointicker.app.ui.activity.home.HomeActivity
+import com.example.bitcointicker.app.ui.activity.login.LoginActivity
 
 class SplashActivity : BaseActivity(R.layout.activity_splash) {
     override fun onCreate(savedInstanceState: Bundle?) {

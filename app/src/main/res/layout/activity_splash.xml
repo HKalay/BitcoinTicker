@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_main_color"
-    tools:context=".app.ui.splash.SplashActivity">
+    tools:context=".app.ui.activity.splash.SplashActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

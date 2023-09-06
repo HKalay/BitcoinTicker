@@ -1,4 +1,4 @@
-package com.example.bitcointicker.app.ui.login
+package com.example.bitcointicker.app.ui.activity.login
 
 import android.os.Bundle
 import com.example.bitcointicker.R

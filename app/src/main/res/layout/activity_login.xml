@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_main_color"
     android:orientation="vertical"
-    tools:context=".app.ui.login.LoginActivity">
+    tools:context=".app.ui.activity.login.LoginActivity">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat

@@ -1,4 +1,4 @@
-package com.example.bitcointicker.app.ui
+package com.example.bitcointicker.app.ui.activity.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
