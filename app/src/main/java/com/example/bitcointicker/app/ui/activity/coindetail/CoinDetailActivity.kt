@@ -6,16 +6,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
+import com.example.bitcointicker.app.ui.activity.coindetail.viewmodel.ContentDetailViewModel
 import com.example.bitcointicker.core.extensions.loadImageCircle
 import com.example.bitcointicker.core.extensions.parcelable
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.intent.IntentPutData
+import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.core.utils.BottomSheetScreenUtils
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_coin_detail.tvHashAlgorithm
 import kotlinx.android.synthetic.main.activity_coin_detail.tvLatest24HoursChnage
 import kotlinx.android.synthetic.main.activity_coin_detail.tvPageRefreshInterval
 import kotlinx.android.synthetic.main.activity_coin_detail.tvPrice
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -36,7 +41,9 @@ import java.util.concurrent.TimeUnit
 class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     private var coinId = ""
-    private lateinit var scheduledExecutor: ScheduledExecutorService
+    private var scheduledExecutor: ScheduledExecutorService? = null
+
+    private val viewModel: ContentDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +60,9 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     override fun onDestroy() {
         super.onDestroy()
-        scheduledExecutor.shutdown()
+
+        if (scheduledExecutor != null)
+            scheduledExecutor?.shutdown()
     }
 
     private fun readIntent() {
@@ -65,7 +74,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         }
     }
 
-    private fun setupUI(coinDetailResponseDTO: CoinDetailResponseDTO){
+    private fun setupUI(coinDetailResponseDTO: CoinDetailResponseDTO) {
         coinId = coinDetailResponseDTO.id.toString()
 
         imgCoinImage.loadImageCircle(url = coinDetailResponseDTO.image?.large.toString())
@@ -149,6 +158,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
         timeRenewal.setOnDismissListener {
             setupTimeRenewalData()
+            refreshData()
         }
 
         val mBehavior: BottomSheetBehavior<*> =
@@ -159,15 +169,15 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     private fun setupTimeRenewalData() {
 
-        val textColor = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)){
+        val textColor = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
             Color.GREEN
-        }else{
+        } else {
             Color.RED
         }
 
-        val text = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)){
+        val text = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
             resources.getString(R.string.active)
-        }else{
+        } else {
             resources.getString(R.string.passive)
         }
 
@@ -179,14 +189,42 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString()
     }
 
-    private fun refreshData(){
+    private fun getCoinDetail(id: String) {
+
+        lifecycleScope.launch {
+            viewModel.getCoinDetail(id = id).collect { result ->
+                when (result) {
+                    is DataFetchResult.Failure -> {
+
+                    }
+
+                    is DataFetchResult.Progress -> {
+
+                    }
+
+                    is DataFetchResult.Success -> {
+                        Log.i("Merhaba", "istek atıldı")
+                        setupUI(coinDetailResponseDTO = result.data)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun refreshData() {
+
+        if (!sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
+            if (scheduledExecutor != null)
+                scheduledExecutor?.shutdown()
+        }
+
         scheduledExecutor = Executors.newScheduledThreadPool(1)
 
         val refreshRunnable = Runnable {
-            //TODO api isteğinde bulunulacak
+            getCoinDetail(id = coinId)
         }
 
-        scheduledExecutor.scheduleAtFixedRate(
+        scheduledExecutor?.scheduleAtFixedRate(
             refreshRunnable,
             0,
             sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toLong(),
