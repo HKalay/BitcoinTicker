@@ -3,12 +3,12 @@ package com.example.bitcointicker.app.ui.activity.coindetail
 import android.os.Bundle
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
-import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.loadImageCircle
 import com.example.bitcointicker.core.extensions.parcelable
 import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
+import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
 import kotlinx.android.synthetic.main.activity_coin_detail.tvDescription
 import kotlinx.android.synthetic.main.activity_coin_detail.tvHashAlgorithm
 import kotlinx.android.synthetic.main.activity_coin_detail.tvLatest24HoursChnage
@@ -25,7 +25,11 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         intent?.let {
             it.parcelable<CoinDetailResponseDTO>(IntentPutData.COIN_DETAIL.value)
                 ?.let { intentData ->
+
                     imgCoinImage.loadImageCircle(url = intentData.image?.large.toString())
+
+                    tvCoinName.text = intentData.name
+
                     tvPrice.text = intentData.market_data?.current_price?.usd.toString() + "$"
                     tvLatest24HoursChnage.text =
                         intentData.market_data?.price_change_percentage_24h.toString()

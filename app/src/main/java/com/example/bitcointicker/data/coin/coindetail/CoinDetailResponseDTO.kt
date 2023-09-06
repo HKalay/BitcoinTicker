@@ -6,6 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CoinDetailResponseDTO(
+    @SerializedName("name")
+    val name: String?,
+
     @SerializedName("market_data")
     val market_data: MarketData?,
 
