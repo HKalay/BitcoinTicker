@@ -8,8 +8,10 @@ import kotlinx.android.parcel.Parcelize
 data class CoinResponseDTO(
     @SerializedName("id")
     var id: String,
+
     @SerializedName("symbol")
     var symbol: String,
+
     @SerializedName("name")
     var name: String
 ):Parcelable
