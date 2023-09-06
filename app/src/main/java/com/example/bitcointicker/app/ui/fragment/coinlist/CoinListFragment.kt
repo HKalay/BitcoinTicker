@@ -1,14 +1,23 @@
 package com.example.bitcointicker.app.ui.fragment.coinlist
 
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseFragment
 import com.example.bitcointicker.app.ui.fragment.coinlist.viewmodel.CoinListViewModel
 import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapter
+import com.example.bitcointicker.component.recyclerview.helper.setup
+import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
+import com.example.bitcointicker.core.extensions.gone
+import com.example.bitcointicker.core.extensions.visible
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_coin_list.loadingProgressCoins
+import kotlinx.android.synthetic.main.fragment_coin_list.rvCoinList
+import kotlinx.android.synthetic.main.fragment_coin_list.rvSuccessView
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,13 +29,26 @@ class CoinListFragment : BaseFragment() {
 
     private val viewModel: CoinListViewModel by activityViewModels()
 
+    private val coinList = arrayListOf<CoinItemDTO>()
+
     override val layoutResId = R.layout.fragment_coin_list
 
     override fun binds() {
+
+        rvCoinList.setup(
+            adapter = adapterPageList.getAdapter(),
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        )
+
         getCoinList()
     }
 
     private fun getCoinList() {
+        visibleView(view = loadingProgressCoins)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCoinList().collect { result ->
                 when (result) {
@@ -42,10 +64,24 @@ class CoinListFragment : BaseFragment() {
 
                     is DataFetchResult.Success -> {
                         //TODO bg deki null yazısı gidip recylerview gelecek
-                        Log.i("Merhaba_result", result.data.toString())
+                        visibleView(view = rvSuccessView)
+
+                        result.data.forEach{
+                            coinList.add(element = CoinItemDTO(coinResponseDTO = it))
+                        }
+
+                        adapterPageList.getAdapter()
+                            .updateAllItems(coinList)
                     }
                 }
             }
         }
+    }
+
+    private fun visibleView(view:View){
+        loadingProgressCoins.gone()
+        rvSuccessView.gone()
+
+        view.visible()
     }
 }

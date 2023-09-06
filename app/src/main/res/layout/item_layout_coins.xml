@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:foreground="?android:attr/selectableItemBackground"
     android:id="@+id/rootItemCoinCard"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -18,17 +18,13 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:weightSum="10">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvItemCoinSymbol"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="2"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/cyan"
@@ -37,13 +33,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvItemCoinName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="8"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/white"
                 app:fontFamily="@font/inter_semibold"
                 tools:text="Name" />
