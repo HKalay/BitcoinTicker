@@ -21,8 +21,8 @@ import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
-import kotlinx.android.synthetic.main.activity_coin_detail.imgRenewalTimeStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.llAddUpdateTime
+import kotlinx.android.synthetic.main.activity_coin_detail.tvActivePassiveStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
 import kotlinx.android.synthetic.main.activity_coin_detail.tvDescription
 import kotlinx.android.synthetic.main.activity_coin_detail.tvHashAlgorithm
@@ -128,11 +128,6 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                 value = swRenewalIsActive?.isChecked!!
             )
 
-            Log.i(
-                "Merhaba_veriler",
-                "" + swRenewalIsActive.isChecked + "- " + etRenewal?.text.toString().toInt()
-            )
-
             sharedPrefManager.setIsCoinRefreshTime(
                 coindId = coinId,
                 value = etRenewal?.text.toString().toInt()
@@ -156,12 +151,22 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
     }
 
     private fun setupBottomSheetData() {
-        imgRenewalTimeStatus.isSelected =
-            sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
 
-        if (sharedPrefManager.getIsCoinRefreshTime(coindId = coinId) == 0) {
-            return
+        val textColor = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)){
+            Color.GREEN
+        }else{
+            Color.RED
         }
+
+        val text = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)){
+            resources.getString(R.string.active)
+        }else{
+            resources.getString(R.string.passive)
+        }
+
+        tvActivePassiveStatus.setTextColor(textColor)
+        tvActivePassiveStatus.text = text
+
 
         tvPageRefreshInterval?.text =
             sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString()

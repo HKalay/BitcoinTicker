@@ -246,7 +246,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/calculate_second"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:fontFamily="@font/inter_medium" />
@@ -265,20 +265,23 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRenewalTimeStatus"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                app:srcCompat="@drawable/selector_renewal_time" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAddUpdateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="@string/update"
                 android:textColor="@color/cyan"
                 app:fontFamily="@font/inter_bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvActivePassiveStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="10sp"
+                android:text="@string/passive"
+                android:textColor="@color/selector_active_passive_text_color"
+                app:fontFamily="@font/inter_medium" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

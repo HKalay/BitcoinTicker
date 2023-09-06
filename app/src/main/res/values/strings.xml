@@ -29,7 +29,6 @@
     <string name="hash_algorithm_not_found">Hashing algorithm not found</string>
 
     <string name="page_refresh_frequency">Page refresh frequency</string>
-    <string name="calculate_second">Calculations are made in seconds</string>
 
     <string name="add">Add</string>
     <string name="update">Update</string>
@@ -38,6 +37,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Ok</string>
+    <string name="active">Active</string>
+    <string name="passive">Passive</string>
 
     <string name="refresh_active_status">Renewal activation status</string>
     <string name="save">Save</string>
