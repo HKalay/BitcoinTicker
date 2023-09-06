@@ -27,6 +27,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         onBackPressedDispatcher.addCallback(this) {
             if (clickedPage == FAVORITES_PAGE) {
                 bottomNavigation.selectedItemId = R.id.navigation_coins
+            } else {
+                finish()
             }
         }
     }

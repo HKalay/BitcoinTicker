@@ -16,4 +16,6 @@
     <string name="or">Or</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="no_internet">There is no internet connection</string>
+
+    <string name="coin_detail">Coin Detail</string>
 </resources>
