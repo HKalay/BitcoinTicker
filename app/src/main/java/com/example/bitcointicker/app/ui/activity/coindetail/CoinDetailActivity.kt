@@ -25,7 +25,7 @@ import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
-import kotlinx.android.synthetic.main.activity_coin_detail.llAddUpdateTime
+import kotlinx.android.synthetic.main.activity_coin_detail.llUpdateRefreshFrequency
 import kotlinx.android.synthetic.main.activity_coin_detail.tvActivePassiveStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
 import kotlinx.android.synthetic.main.activity_coin_detail.tvDescription
@@ -49,7 +49,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         super.onCreate(savedInstanceState)
         readIntent()
         initClickListener()
-        setupTimeRenewalData()
+        setupRenewalfrequencyStatus()
         refreshData()
     }
 
@@ -88,50 +88,44 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             }
         tvLatest24HoursChnage.text = latest24Hours
 
-        val hashAlgorithm = if (coinDetailResponseDTO.hashing_algorithm.isNullOrEmpty()) {
+        val hashAlgorithm = coinDetailResponseDTO.hashing_algorithm.toString().ifEmpty {
             resources.getString(R.string.hash_algorithm_not_found)
-        } else {
-            coinDetailResponseDTO.hashing_algorithm
         }
-
         tvHashAlgorithm.text = hashAlgorithm
 
-        val description = if (coinDetailResponseDTO.description?.en.isNullOrEmpty()) {
+        val description = coinDetailResponseDTO.description?.en.toString().ifEmpty {
             resources.getString(R.string.description_not_found)
-        } else {
-            coinDetailResponseDTO.description?.en
         }
-
         tvDescription.text = description
     }
 
     private fun initClickListener() {
-        llAddUpdateTime.setOnClickListener {
-            showTimeForRenewalDialog()
+        llUpdateRefreshFrequency.setOnClickListener {
+            showRefreshFrequencyDialog()
         }
     }
 
-    private fun showTimeForRenewalDialog() {
-        val timeRenewal = BottomSheetDialog(this)
-        val view = View.inflate(this, R.layout.bottom_sheet_coin_refresh_time, null)
-        timeRenewal.setContentView(view)
+    private fun showRefreshFrequencyDialog() {
+        val renewalFrequencyDialog = BottomSheetDialog(this)
+        val view = View.inflate(this, R.layout.bottom_sheet_dialog_coin_renewal_frequency, null)
+        renewalFrequencyDialog.setContentView(view)
 
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
-        timeRenewal.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        timeRenewal.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        renewalFrequencyDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        renewalFrequencyDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         val root: LinearLayoutCompat =
-            timeRenewal.findViewById(R.id.rootParent)!!
-        val swRenewalIsActive: SwitchCompat? = timeRenewal.findViewById(R.id.swRenewalActive)
-        val etRenewal: AppCompatEditText? = timeRenewal.findViewById(R.id.etRefreshInterval)
-        val btnSave: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalSave)
-        val btnCancel: AppCompatButton? = timeRenewal.findViewById(R.id.btnRefreshIntervalCancel)
+            renewalFrequencyDialog.findViewById(R.id.rootParent)!!
+        val swRenewalFruquency: SwitchCompat? = renewalFrequencyDialog.findViewById(R.id.swItemRenewalFruquency)
+        val etRenewalFrequencyTime: AppCompatEditText? = renewalFrequencyDialog.findViewById(R.id.etItemRenewalFrequencyTime)
+        val btnRenewalFrequencyStatuSave: AppCompatButton? = renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuSave)
+        val btnRenewalFrequencyStatuCancel: AppCompatButton? = renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuCancel)
 
-        swRenewalIsActive?.isChecked = sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
-        etRenewal?.setText(sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString())
+        swRenewalFruquency?.isChecked = sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
+        etRenewalFrequencyTime?.setText(sharedPrefManager.getIsCoinRenewalFrequencyTime(coindId = coinId).toString())
 
-        btnSave?.setOnClickListener {
-            if (etRenewal?.text.isNullOrEmpty() || etRenewal?.text.toString().toInt() == 0
+        btnRenewalFrequencyStatuSave?.setOnClickListener {
+            if (etRenewalFrequencyTime?.text.isNullOrEmpty() || etRenewalFrequencyTime?.text.toString().toInt() == 0
             ) {
                 showAlertDialog(resources.getString(R.string.second_not_empty))
                 return@setOnClickListener
@@ -139,24 +133,24 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
             sharedPrefManager.setIsCoinRefreshIsActive(
                 coindId = coinId,
-                value = swRenewalIsActive?.isChecked!!
+                value = swRenewalFruquency?.isChecked!!
             )
 
-            sharedPrefManager.setIsCoinRefreshTime(
+            sharedPrefManager.setIsCoinRenewalFrequencyTime(
                 coindId = coinId,
-                value = etRenewal?.text.toString().toInt()
+                value = etRenewalFrequencyTime?.text.toString().toInt()
             )
-            timeRenewal.dismiss()
+            renewalFrequencyDialog.dismiss()
         }
 
-        btnCancel?.setOnClickListener {
-            timeRenewal.dismiss()
+        btnRenewalFrequencyStatuCancel?.setOnClickListener {
+            renewalFrequencyDialog.dismiss()
         }
-        timeRenewal.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        timeRenewal.show()
+        renewalFrequencyDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        renewalFrequencyDialog.show()
 
-        timeRenewal.setOnDismissListener {
-            setupTimeRenewalData()
+        renewalFrequencyDialog.setOnDismissListener {
+            setupRenewalfrequencyStatus()
             refreshData()
         }
 
@@ -166,7 +160,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         mBehavior.peekHeight = screenUtils.height
     }
 
-    private fun setupTimeRenewalData() {
+    private fun setupRenewalfrequencyStatus() {
 
         val textColor = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
             Color.GREEN
@@ -185,7 +179,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
 
         tvPageRefreshInterval?.text =
-            sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString()
+            sharedPrefManager.getIsCoinRenewalFrequencyTime(coindId = coinId).toString()
     }
 
     private fun getCoinDetail(id: String) {
@@ -224,7 +218,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             getCoinDetail(id = coinId)
         }
 
-        val delay = sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toLong()
+        val delay = sharedPrefManager.getIsCoinRenewalFrequencyTime(coindId = coinId).toLong()
         scheduledExecutor?.scheduleAtFixedRate(
             refreshRunnable,
             delay,

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/swRenewalActive"
+            android:layout_toStartOf="@id/swItemRenewalFruquency"
             android:text="@string/renewal_frequency_status"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -28,7 +28,7 @@
 
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/swRenewalActive"
+            android:id="@+id/swItemRenewalFruquency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -47,7 +47,7 @@
         android:background="@drawable/shape_12dp_app_second_color">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etRefreshInterval"
+            android:id="@+id/etItemRenewalFrequencyTime"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_centerInParent="true"
@@ -67,7 +67,7 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnRefreshIntervalSave"
+        android:id="@+id/btnItemRenewalFrequencyStatuSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -82,7 +82,7 @@
         app:fontFamily="@font/inter_bold" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnRefreshIntervalCancel"
+        android:id="@+id/btnItemRenewalFrequencyStatuCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

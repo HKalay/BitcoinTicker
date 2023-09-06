@@ -19,11 +19,11 @@ class SharedPrefManager(context: Context) {
         localPrefManager.push(key = IS_LOGIN, value = value)
     }
 
-    fun getIsCoinRefreshTime(coindId: String): Int {
+    fun getIsCoinRenewalFrequencyTime(coindId: String): Int {
         return localPrefManager.pull(key = COIN_REFRESH_TIME + "_" + coindId, 5)
     }
 
-    fun setIsCoinRefreshTime(coindId: String, value: Int) {
+    fun setIsCoinRenewalFrequencyTime(coindId: String, value: Int) {
         localPrefManager.push(key = COIN_REFRESH_TIME + "_" + coindId, value = value)
     }
 

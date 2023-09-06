@@ -10,7 +10,6 @@ import javax.inject.Inject
 class RoomRepository @Inject constructor(
     private val coinDAO: CoinDAO,
 ) {
-
     suspend fun getAllCoins(): List<CoinDbDTO> = withContext(Dispatchers.IO) {
         coinDAO.getAllCoins()
     }

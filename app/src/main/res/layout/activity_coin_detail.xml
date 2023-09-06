@@ -226,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:layout_toStartOf="@id/llAddUpdateTime"
+            android:layout_toStartOf="@id/llUpdateRefreshFrequency"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -252,11 +252,8 @@
                 app:fontFamily="@font/inter_medium" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!--TODO süre yoksa eklenmesi gerekiyor yazısı olacak ve gri olacak. Eğer eklenmişse süre olacak ve beyaz olacak. En az 15 saniye eklnmesi lazım. uyarı olacak. Eğer yoksa add butonu varsa update butonu olacak. Çıkan bottom navigation içerisindede switch olacak. Sağ üst taraftata açık olduğunda yeşil kapalı olduğunda kırmızı olacak.-->
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llAddUpdateTime"
+            android:id="@+id/llUpdateRefreshFrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
