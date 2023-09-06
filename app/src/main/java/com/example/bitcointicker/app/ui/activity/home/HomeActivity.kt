@@ -29,16 +29,26 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private var clickedPage = COINS_PAGE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permissionRequired()
+        showFragment(fragmentContainerView = containerCoinList)
+        bottomNavigationClickListener()
+        onBackPressedDispatcher()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        bottomNavigation.selectedItemId = selectedItem
+    }
+
+    private fun permissionRequired(){
         lifecycleScope.launch {
             if (permissionPostNotificationAllGranted()) {
                 return@launch
             }
         }
+    }
 
-        showFragment(fragmentContainerView = containerCoinList)
-        bottomNavigationClick()
-
+    private fun onBackPressedDispatcher(){
         onBackPressedDispatcher.addCallback(this) {
             if (clickedPage == FAVORITES_PAGE) {
                 bottomNavigation.selectedItemId = R.id.navigation_coins
@@ -48,11 +58,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        bottomNavigation.selectedItemId = selectedItem
-    }
-
     private fun showFragment(fragmentContainerView: FragmentContainerView) {
         containerCoinList.gone()
         containerMyFavoriteCoins.gone()
@@ -60,7 +65,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         fragmentContainerView.visible()
     }
 
-    private fun bottomNavigationClick() {
+    private fun bottomNavigationClickListener() {
         bottomNavigation.setOnItemSelectedListener { item ->
 
             when (item.itemId) {

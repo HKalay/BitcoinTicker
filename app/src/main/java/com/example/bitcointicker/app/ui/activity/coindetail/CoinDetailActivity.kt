@@ -29,18 +29,21 @@ import kotlinx.android.synthetic.main.activity_coin_detail.tvHashAlgorithm
 import kotlinx.android.synthetic.main.activity_coin_detail.tvLatest24HoursChnage
 import kotlinx.android.synthetic.main.activity_coin_detail.tvPageRefreshInterval
 import kotlinx.android.synthetic.main.activity_coin_detail.tvPrice
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
 
 class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
-    var coinId = ""
+    private var coinId = ""
+    private lateinit var scheduledExecutor: ScheduledExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readIntent()
         initClickListener()
-
-        setupBottomSheetData()
-        //TODO refresh time eklenecek
+        setupTimeRenewalData()
+        refreshData()
     }
 
     override fun onBackPressed() {
@@ -48,41 +51,49 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scheduledExecutor.shutdown()
+    }
+
     private fun readIntent() {
         intent?.let {
             it.parcelable<CoinDetailResponseDTO>(IntentPutData.COIN_DETAIL.value)
                 ?.let { intentData ->
-
-                    coinId = intentData.id.toString()
-
-                    imgCoinImage.loadImageCircle(url = intentData.image?.large.toString())
-
-                    tvCoinName.text = intentData.name
-                    tvPrice.text = intentData.market_data?.current_price?.usd.toString() + "$"
-
-                    val latest24Hours =
-                        intentData.market_data?.price_change_percentage_24h.toString().ifEmpty {
-                            resources.getString(R.string.not_found_24_hours)
-                        }
-                    tvLatest24HoursChnage.text = latest24Hours
-
-                    val hashAlgorithm = if (intentData.hashing_algorithm.isNullOrEmpty()) {
-                        resources.getString(R.string.hash_algorithm_not_found)
-                    } else {
-                        intentData.hashing_algorithm
-                    }
-
-                    tvHashAlgorithm.text = hashAlgorithm
-
-                    val description = if (intentData.description?.en.isNullOrEmpty()) {
-                        resources.getString(R.string.description_not_found)
-                    } else {
-                        intentData.description?.en
-                    }
-
-                    tvDescription.text = description
+                    setupUI(coinDetailResponseDTO = intentData)
                 }
         }
+    }
+
+    private fun setupUI(coinDetailResponseDTO: CoinDetailResponseDTO){
+        coinId = coinDetailResponseDTO.id.toString()
+
+        imgCoinImage.loadImageCircle(url = coinDetailResponseDTO.image?.large.toString())
+
+        tvCoinName.text = coinDetailResponseDTO.name
+        tvPrice.text = coinDetailResponseDTO.market_data?.current_price?.usd.toString() + "$"
+
+        val latest24Hours =
+            coinDetailResponseDTO.market_data?.price_change_percentage_24h.toString().ifEmpty {
+                resources.getString(R.string.not_found_24_hours)
+            }
+        tvLatest24HoursChnage.text = latest24Hours
+
+        val hashAlgorithm = if (coinDetailResponseDTO.hashing_algorithm.isNullOrEmpty()) {
+            resources.getString(R.string.hash_algorithm_not_found)
+        } else {
+            coinDetailResponseDTO.hashing_algorithm
+        }
+
+        tvHashAlgorithm.text = hashAlgorithm
+
+        val description = if (coinDetailResponseDTO.description?.en.isNullOrEmpty()) {
+            resources.getString(R.string.description_not_found)
+        } else {
+            coinDetailResponseDTO.description?.en
+        }
+
+        tvDescription.text = description
     }
 
     private fun initClickListener() {
@@ -113,10 +124,6 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
 
         btnYes?.setOnClickListener {
-            //todo shared preference bilgiler kayıt edilecek
-
-            val input = etRenewal?.text?.split(" ", "").toString()
-
             if (etRenewal?.text.isNullOrEmpty() || etRenewal?.text.toString().toInt() == 0
             ) {
                 showAlertDialog(resources.getString(R.string.second_not_empty))
@@ -141,7 +148,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         timeRenewal.show()
 
         timeRenewal.setOnDismissListener {
-            setupBottomSheetData()
+            setupTimeRenewalData()
         }
 
         val mBehavior: BottomSheetBehavior<*> =
@@ -150,7 +157,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         mBehavior.peekHeight = screenUtils.height
     }
 
-    private fun setupBottomSheetData() {
+    private fun setupTimeRenewalData() {
 
         val textColor = if (sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)){
             Color.GREEN
@@ -170,5 +177,20 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
         tvPageRefreshInterval?.text =
             sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString()
+    }
+
+    private fun refreshData(){
+        scheduledExecutor = Executors.newScheduledThreadPool(1)
+
+        val refreshRunnable = Runnable {
+            //TODO api isteğinde bulunulacak
+        }
+
+        scheduledExecutor.scheduleAtFixedRate(
+            refreshRunnable,
+            0,
+            sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toLong(),
+            TimeUnit.SECONDS
+        )
     }
 }
