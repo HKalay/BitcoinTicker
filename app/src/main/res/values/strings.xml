@@ -37,4 +37,10 @@
     <string name="exit_question">Are you sure you want to exit the application?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="refresh_active_status">Renewal activation status</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="time_for_renewal">Time for Renewal(Second)</string>
+
 </resources>
