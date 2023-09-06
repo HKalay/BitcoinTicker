@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import com.example.bitcointicker.data.coin.CoinDTO
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 
 
 @Parcelize
@@ -20,6 +20,6 @@ data class CoinDbDTO(
     var coinId: String, // Aynı idli veri kayıt edilmek istenildiği zaman replace etmek için eklendi.
 
     @ColumnInfo(name = "coin_dto")
-    var coinDTO: CoinDTO
+    var coinResponseDTO: CoinResponseDTO
 ): Parcelable
 

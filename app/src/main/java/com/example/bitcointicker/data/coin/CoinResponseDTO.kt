@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CoinDTO(
+data class CoinResponseDTO(
     @SerializedName("id")
     var id: String,
     @SerializedName("symbol")

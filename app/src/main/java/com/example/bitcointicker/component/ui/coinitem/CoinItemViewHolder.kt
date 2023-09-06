@@ -51,7 +51,7 @@ class CoinItemViewHolder(val view: View) : ViewHolder<CoinItemDTO>(view) {
     }
 
     private fun bindData(item: CoinItemDTO){
-        tvCoinSymbol.text = item.coinDTO.symbol
-        tvItemCoinName.text = item.coinDTO.name
+        tvCoinSymbol.text = item.coinResponseDTO.symbol
+        tvItemCoinName.text = item.coinResponseDTO.name
     }
 }

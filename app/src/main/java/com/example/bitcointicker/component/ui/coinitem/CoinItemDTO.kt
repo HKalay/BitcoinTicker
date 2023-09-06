@@ -4,9 +4,9 @@ import android.os.Parcelable
 import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapterConstant
 import kotlinx.android.parcel.Parcelize
 import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
-import com.example.bitcointicker.data.coin.CoinDTO
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 
 @Parcelize
 data class CoinItemDTO(
-    var coinDTO: CoinDTO,
+    var coinResponseDTO: CoinResponseDTO,
 ) : Parcelable, DisplayItem(RecyclerviewAdapterConstant.TYPES.TYPE_COIN_ITEM)

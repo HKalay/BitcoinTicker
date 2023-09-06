@@ -31,15 +31,18 @@ class CoinListFragment : BaseFragment() {
             viewModel.getCoinList().collect { result ->
                 when (result) {
                     is DataFetchResult.Failure -> {
+                        //TODO hata durumunda progress gone olup bg de null yazısı gözükecek
                         Log.i("Merhaba_result", "hata")
                     }
 
                     is DataFetchResult.Progress -> {
+                        //TODO progress visible olacak
                         Log.i("Merhaba_result", "hata")
                     }
 
                     is DataFetchResult.Success -> {
-                        Log.i("Merhaba_result", result.data.coinDTO.toString())
+                        //TODO bg deki null yazısı gidip recylerview gelecek
+                        Log.i("Merhaba_result", result.data.toString())
                     }
                 }
             }

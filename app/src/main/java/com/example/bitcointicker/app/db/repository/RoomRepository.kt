@@ -1,7 +1,7 @@
 package com.example.bitcointicker.app.db.repository
 
 import com.example.bitcointicker.app.db.dao.CoinDAO
-import com.example.bitcointicker.data.coin.CoinDTO
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 import com.example.bitcointicker.data.database.CoinDbDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,13 +15,13 @@ class RoomRepository @Inject constructor(
         coinDAO.getAllCoins()
     }
 
-    suspend fun insertCoin(coinDTO: CoinDTO) {
+    suspend fun insertCoin(coinResponseDTO: CoinResponseDTO) {
         withContext(Dispatchers.IO)
         {
             coinDAO.insertCoin(
                 coinDbDTO = CoinDbDTO(
-                    coinId = coinDTO.id,
-                    coinDTO = coinDTO
+                    coinId = coinResponseDTO.id,
+                    coinResponseDTO = coinResponseDTO
                 )
             )
         }

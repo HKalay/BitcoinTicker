@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.bitcointicker.app.db.repository.RoomRepository
 import com.example.bitcointicker.app.ui.fragment.coinlist.reposiroty.CoinListRepository
 import com.example.bitcointicker.core.netowrk.DataFetchResult
-import com.example.bitcointicker.data.coin.CoinDTO
-import com.example.bitcointicker.data.coin.CoinListResponse
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 import com.example.bitcointicker.data.database.CoinDbDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,15 +37,16 @@ class CoinListViewModel @Inject constructor(
 
     }
 
-    suspend fun insertCoins(coinDTO: CoinDTO) {
-        roomRepository.insertCoin(coinDTO = coinDTO)
+    suspend fun insertCoins(coinResponseDTO: CoinResponseDTO) {
+        roomRepository.insertCoin(coinResponseDTO = coinResponseDTO)
         getAllCoinsStateFlow()
 
     }
 
-    suspend fun getCoinList(): Flow<DataFetchResult<CoinListResponse>> =
+    suspend fun getCoinList(): Flow<DataFetchResult<List<CoinResponseDTO>>> =
         coinListRepository.coinListFetchData()
-            .catch { exception ->
+            .catch {
+                    exception ->
                 emit(DataFetchResult.Failure(exception))
             }
             .flowOn(Dispatchers.IO)

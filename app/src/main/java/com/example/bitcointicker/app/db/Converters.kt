@@ -1,18 +1,18 @@
 package com.example.bitcointicker.app.db
 
 import androidx.room.TypeConverter
-import com.example.bitcointicker.data.coin.CoinDTO
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 import com.google.gson.Gson
 
 object Converters {
 
     @TypeConverter
-    fun fromJson(jsonString: String): CoinDTO {
-        return Gson().fromJson(jsonString, CoinDTO::class.java)
+    fun fromJson(jsonString: String): CoinResponseDTO {
+        return Gson().fromJson(jsonString, CoinResponseDTO::class.java)
     }
 
     @TypeConverter
-    fun toJson(coinDTO: CoinDTO): String {
-        return Gson().toJson(coinDTO)
+    fun toJson(coinResponseDTO: CoinResponseDTO): String {
+        return Gson().toJson(coinResponseDTO)
     }
 }
