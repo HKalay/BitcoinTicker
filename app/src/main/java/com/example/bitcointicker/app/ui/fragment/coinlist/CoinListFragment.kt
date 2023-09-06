@@ -134,8 +134,8 @@ class CoinListFragment : BaseFragment() {
                         )
                         startActivity(intent)
                         requireActivity().overridePendingTransition(
-                            R.anim.slide_in_right,
-                            R.anim.slide_out_left
+                            R.anim.fade_in,
+                            R.anim.fade_out
                         )
                     }
                 }

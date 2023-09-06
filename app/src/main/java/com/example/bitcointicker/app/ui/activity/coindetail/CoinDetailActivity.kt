@@ -23,8 +23,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        // todo buradaki animasyona bakılacak
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     private fun readIntent() {

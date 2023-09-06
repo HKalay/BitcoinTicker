@@ -19,10 +19,16 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
         Handler().postDelayed({
             if (sharedPrefManager.getIsLogin()) {
                 startActivity(Intent(this, HomeActivity::class.java))
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                overridePendingTransition(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
             } else {
                 startActivity(Intent(this, HomeActivity::class.java))
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                overridePendingTransition(
+                    R.anim.fade_in,
+                    R.anim.fade_out
+                )
             }
             finish()
         }, 2000)
