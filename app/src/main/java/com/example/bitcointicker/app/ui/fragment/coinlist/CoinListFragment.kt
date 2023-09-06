@@ -1,5 +1,7 @@
 package com.example.bitcointicker.app.ui.fragment.coinlist
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -15,6 +17,8 @@ import com.example.bitcointicker.core.extensions.gone
 import com.example.bitcointicker.core.extensions.visible
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_coin_list.etSearch
+import kotlinx.android.synthetic.main.fragment_coin_list.imgClearTextSearch
 import kotlinx.android.synthetic.main.fragment_coin_list.loadingProgressCoins
 import kotlinx.android.synthetic.main.fragment_coin_list.rvCoinList
 import kotlinx.android.synthetic.main.fragment_coin_list.rvSuccessView
@@ -27,6 +31,8 @@ class CoinListFragment : BaseFragment() {
     @Inject
     lateinit var adapterPageList: RecyclerviewAdapter
 
+    private var filtersIsActive = false
+
     private val viewModel: CoinListViewModel by activityViewModels()
 
     private val coinList = arrayListOf<CoinItemDTO>()
@@ -35,6 +41,13 @@ class CoinListFragment : BaseFragment() {
 
     override fun binds() {
 
+        initClickListener()
+        setupRecyclerView()
+        getCoinList()
+        editTextWatchListener()
+    }
+
+    private fun setupRecyclerView(){
         rvCoinList.setup(
             adapter = adapterPageList.getAdapter(),
             layoutManager = LinearLayoutManager(
@@ -43,8 +56,11 @@ class CoinListFragment : BaseFragment() {
                 false
             )
         )
-
-        getCoinList()
+    }
+    private fun initClickListener(){
+        imgClearTextSearch.setOnClickListener {
+            etSearch.text?.clear()
+        }
     }
 
     private fun getCoinList() {
@@ -58,25 +74,58 @@ class CoinListFragment : BaseFragment() {
                     }
 
                     is DataFetchResult.Progress -> {
-                        //TODO progress visible olacak
-                        Log.i("Merhaba_result", "hata")
+
                     }
 
                     is DataFetchResult.Success -> {
-                        //TODO bg deki null yazısı gidip recylerview gelecek
-                        visibleView(view = rvSuccessView)
-
                         result.data.forEach{
                             coinList.add(element = CoinItemDTO(coinResponseDTO = it))
                         }
 
                         adapterPageList.getAdapter()
                             .updateAllItems(coinList)
+
+                        visibleView(view = rvSuccessView)
                     }
                 }
             }
         }
     }
+
+    private fun editTextWatchListener() {
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString().isEmpty()) {
+                    filtersIsActive = false
+                    imgClearTextSearch.gone()
+                } else {
+                    filtersIsActive = true
+                    imgClearTextSearch.visible()
+                }
+                filterList(etSearch.text.toString())
+            }
+        })
+    }
+
+    private fun filterList(text: String) {
+        if (text.isNotEmpty()) {
+            val filteredList: ArrayList<CoinItemDTO> = ArrayList()
+
+            coinList.forEach {
+                if (it.coinResponseDTO.name.lowercase().contains(text.lowercase())
+                    || it.coinResponseDTO.symbol.lowercase().contains(text.lowercase())
+                ) {
+                    filteredList.add(it)
+                }
+                adapterPageList.getAdapter().updateAllItems(filteredList)
+            }
+        } else {
+            adapterPageList.getAdapter().updateAllItems(coinList)
+        }
+    }
+
 
     private fun visibleView(view:View){
         loadingProgressCoins.gone()
