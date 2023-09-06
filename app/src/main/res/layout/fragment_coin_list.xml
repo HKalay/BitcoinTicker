@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout class="androidx.appcompat.app.AlertController$RecycleListView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.ui.fragment.coinlist.CoinListFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    tools:context=".app.ui.fragment.coinlist.CoinListFragment">
 
 
     <RelativeLayout
         android:id="@+id/rvSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:background="@drawable/shape_12_dp_app_second_color">
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -63,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rvSearch"
+        android:layout_marginTop="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_layout_coins" />
 
