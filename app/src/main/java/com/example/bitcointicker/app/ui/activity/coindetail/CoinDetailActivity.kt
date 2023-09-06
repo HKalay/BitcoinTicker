@@ -130,14 +130,6 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         swRenewalIsActive?.isChecked = sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
         etRenewal?.setText(sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toString())
 
-        swRenewalIsActive?.setOnCheckedChangeListener { _, isChecked ->
-            sharedPrefManager.setIsCoinRefreshIsActive(
-                coindId = coinId,
-                value = isChecked
-            )
-            swRenewalIsActive.isChecked = isChecked
-        }
-
         btnSave?.setOnClickListener {
             if (etRenewal?.text.isNullOrEmpty() || etRenewal?.text.toString().toInt() == 0
             ) {
@@ -145,12 +137,18 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                 return@setOnClickListener
             }
 
+            sharedPrefManager.setIsCoinRefreshIsActive(
+                coindId = coinId,
+                value = swRenewalIsActive?.isChecked!!
+            )
+
             sharedPrefManager.setIsCoinRefreshTime(
                 coindId = coinId,
                 value = etRenewal?.text.toString().toInt()
             )
             timeRenewal.dismiss()
         }
+
         btnCancel?.setOnClickListener {
             timeRenewal.dismiss()
         }
@@ -204,7 +202,6 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                     }
 
                     is DataFetchResult.Success -> {
-                        Log.i("Merhaba", "istek atıldı")
                         setupUI(coinDetailResponseDTO = result.data)
                     }
                 }
@@ -214,9 +211,10 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     private fun refreshData() {
 
+        if (scheduledExecutor != null)
+            scheduledExecutor?.shutdown()
+
         if (!sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)) {
-            if (scheduledExecutor != null)
-                scheduledExecutor?.shutdown()
             return
         }
 
@@ -226,10 +224,11 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             getCoinDetail(id = coinId)
         }
 
+        val delay = sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toLong()
         scheduledExecutor?.scheduleAtFixedRate(
             refreshRunnable,
-            0,
-            sharedPrefManager.getIsCoinRefreshTime(coindId = coinId).toLong(),
+            delay,
+            delay,
             TimeUnit.SECONDS
         )
     }
