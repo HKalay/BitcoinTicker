@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Loodos BitcoinTicker</string>
+
+    <string name="enter_email">Enter your email address</string>
+    <string name="enter_password">Enter your password address</string>
+
+    <string name="sing_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forgot_password">Forgot Password</string>
 </resources>

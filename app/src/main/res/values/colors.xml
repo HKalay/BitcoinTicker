@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="app_main_color">#161526</color>
+    <color name="app_main_color">#12111f</color>
+    <color name="app_second_color">#161526</color>
     <color name="cyan">#3bafbf</color>
 </resources>
