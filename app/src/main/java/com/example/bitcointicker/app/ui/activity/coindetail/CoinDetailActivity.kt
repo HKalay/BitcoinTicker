@@ -34,22 +34,25 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
                     imgCoinImage.loadImageCircle(url = intentData.image?.large.toString())
 
                     tvCoinName.text = intentData.name
-
                     tvPrice.text = intentData.market_data?.current_price?.usd.toString() + "$"
-                    tvLatest24HoursChnage.text =
-                        intentData.market_data?.price_change_percentage_24h.toString()
 
-                    val hashAlgorithm = if (intentData.hashing_algorithm.isNullOrEmpty()){
+                    val latest24Hours =
+                        intentData.market_data?.price_change_percentage_24h.toString().ifEmpty {
+                            resources.getString(R.string.not_found_24_hours)
+                        }
+                    tvLatest24HoursChnage.text = latest24Hours
+
+                    val hashAlgorithm = if (intentData.hashing_algorithm.isNullOrEmpty()) {
                         resources.getString(R.string.hash_algorithm_not_found)
-                    }else{
+                    } else {
                         intentData.hashing_algorithm
                     }
 
                     tvHashAlgorithm.text = hashAlgorithm
 
-                    val description = if (intentData.description?.en.isNullOrEmpty()){
+                    val description = if (intentData.description?.en.isNullOrEmpty()) {
                         resources.getString(R.string.description_not_found)
-                    }else{
+                    } else {
                         intentData.description?.en
                     }
 

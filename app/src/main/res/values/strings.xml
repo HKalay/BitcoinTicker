@@ -24,6 +24,7 @@
     <string name="hashinga_algorithm">Hashing Algorithm</string>
     <string name="description">Description</string>
 
+    <string name="not_found_24_hours">No data found for the last 24 hours</string>
     <string name="description_not_found">Description not found</string>
     <string name="hash_algorithm_not_found">Hashing algorithm not found</string>
 
@@ -32,4 +33,8 @@
 
     <string name="add">Add</string>
     <string name="update">Update</string>
+
+    <string name="exit_question">Are you sure you want to exit the application?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
