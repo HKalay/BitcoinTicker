@@ -15,7 +15,6 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
     private fun startActivity() {
-        //TODO daha önce giriş yapmışsa home page gidecek. Yapmamışsa login pagede olacak.
         Handler().postDelayed({
             if (sharedPrefManager.getIsLogin()) {
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -42,5 +41,3 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
 // TODO Şifremi unuttum yapılacak. Mail onaylı olacak
 // TODO sign up yaparken mail onayı olmalı
 // TODO ana sayfada filtre yaptığımız zaman veri yoksa veri yok diye layout göstersin.
-
-//TODO coin yenileme eklenecek. aktif ise yenileme yapacak.

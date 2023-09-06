@@ -110,8 +110,6 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun getCoinDetail(id: String) {
-        //TODO hata çıkması durumunda uyarı alert dialog çıkacak. Olumlu olunca detaya gidecek
-
         loadingProgressCoins.visible()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCoinDetail(id = id).collect { result ->
