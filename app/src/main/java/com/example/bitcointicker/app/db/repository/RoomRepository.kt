@@ -27,6 +27,11 @@ class RoomRepository @Inject constructor(
         }
     }
 
+    suspend fun getCoinWithId(id: String): CoinDbDTO =
+        withContext(Dispatchers.IO) {
+            coinDAO.getCoinWithId(id = id)
+        }
+
     suspend fun deleteCoin(coinDbDTO: CoinDbDTO) {
         withContext(Dispatchers.IO)
         {

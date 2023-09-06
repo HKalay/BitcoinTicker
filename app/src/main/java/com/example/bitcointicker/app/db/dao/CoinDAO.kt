@@ -12,4 +12,7 @@ interface CoinDAO {
 
     @Query("DELETE FROM saved_coins WHERE id = :id")
     fun deleteCoin(id:Int)
+
+    @Query("SELECT * FROM saved_coins WHERE id= :id")
+    fun getCoinWithId(id: String): CoinDbDTO
 }
