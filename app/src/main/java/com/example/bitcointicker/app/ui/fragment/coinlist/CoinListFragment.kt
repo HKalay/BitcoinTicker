@@ -133,6 +133,10 @@ class CoinListFragment : BaseFragment() {
                             result.data
                         )
                         startActivity(intent)
+                        requireActivity().overridePendingTransition(
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left
+                        )
                     }
                 }
             }

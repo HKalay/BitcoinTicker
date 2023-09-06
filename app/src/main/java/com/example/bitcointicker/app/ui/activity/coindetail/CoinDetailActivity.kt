@@ -21,6 +21,12 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         //TODO refresh time eklenecek
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // todo buradaki animasyona bakılacak
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
     private fun readIntent() {
         intent?.let {
             it.parcelable<CoinDetailResponseDTO>(IntentPutData.COIN_DETAIL.value)
