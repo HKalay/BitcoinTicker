@@ -1,26 +1,20 @@
-package com.example.bitcointicker.app.ui.fragment.coinlist.viewmodel
+package com.example.bitcointicker.app.ui.activity.coindetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.bitcointicker.app.db.repository.RoomRepository
 import com.example.bitcointicker.app.ui.fragment.coinlist.reposiroty.CoinRepository
-import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.data.coin.CoinResponseDTO
-import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.example.bitcointicker.data.database.CoinDbDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class CoinListViewModel @Inject constructor(
+class ContentDetailViewModel @Inject constructor(
     private val roomRepository: RoomRepository,
-    private val coinRepository: CoinRepository
 ) : ViewModel() {
 
     private val _coinsStateFlow = MutableStateFlow<List<CoinDbDTO>>(emptyList())
@@ -43,20 +37,4 @@ class CoinListViewModel @Inject constructor(
         getAllCoinsStateFlow()
 
     }
-
-    suspend fun getCoinList(): Flow<DataFetchResult<List<CoinResponseDTO>>> =
-        coinRepository.coinListFetchData()
-            .catch {
-                    exception ->
-                emit(DataFetchResult.Failure(exception))
-            }
-            .flowOn(Dispatchers.IO)
-
-    suspend fun getCoinDetail(id:String): Flow<DataFetchResult<CoinDetailResponseDTO>> =
-        coinRepository.coinDetailFetchData(id = id)
-            .catch {
-                    exception ->
-                emit(DataFetchResult.Failure(exception))
-            }
-            .flowOn(Dispatchers.IO)
 }

@@ -3,6 +3,7 @@ package com.example.bitcointicker.app.ui.fragment.coinlist
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -73,13 +74,7 @@ class CoinListFragment : BaseFragment() {
                 when (item) {
                     is CoinItemDTO -> {
                         if (view.id == R.id.rootItemCoinCard) {
-                            /*val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
-                            intent.putExtra(
-                                IntentPutData.COIN_ID.value,
-                                item.coinResponseDTO.id
-                            )
-                            startActivity(intent)*/
-                            //TODO hata çıkması durumunda uyarı alert dialog çıkacak
+                            getCoinDetail(id = item.coinResponseDTO.id)
                         }
                     }
                 }
@@ -108,6 +103,37 @@ class CoinListFragment : BaseFragment() {
                             .updateAllItems(coinList)
 
                         visibleView(view = rvSuccessView)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getCoinDetail(id: String) {
+        //TODO hata çıkması durumunda uyarı alert dialog çıkacak. Olumlu olunca detaya gidecek
+
+        loadingProgressCoins.visible()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCoinDetail(id = id).collect { result ->
+                when (result) {
+                    is DataFetchResult.Failure -> {
+                        loadingProgressCoins.gone()
+                    }
+
+                    is DataFetchResult.Progress -> {
+
+                    }
+
+                    is DataFetchResult.Success -> {
+                        loadingProgressCoins.gone()
+                        Log.i("Merhaba", result.data.toString())
+
+                        /*val intent = Intent(requireActivity(), CoinDetailActivity::class.java)
+                       intent.putExtra(
+                           IntentPutData.COIN_ID.value,
+                           item.coinResponseDTO.id
+                       )
+                       startActivity(intent)*/
                     }
                 }
             }
