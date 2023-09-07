@@ -35,7 +35,6 @@
                 android:layout_height="52dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:layout_toStartOf="@+id/imgShowHidePassword"
                 android:background="@android:color/transparent"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
@@ -45,18 +44,6 @@
                 android:textCursorDrawable="@color/cyan"
                 android:textSize="14sp"
                 app:fontFamily="@font/inter_medium" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgShowHidePassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="12dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_clear_text"
-                tools:visibility="visible" />
 
         </RelativeLayout>
 
@@ -71,7 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginStart="12dp"
+
                 android:layout_marginEnd="12dp"
+                android:layout_toStartOf="@+id/imgShowHidePasswordLogin"
                 android:background="@android:color/transparent"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
@@ -81,6 +70,17 @@
                 android:textCursorDrawable="@color/cyan"
                 android:textSize="14sp"
                 app:fontFamily="@font/inter_medium" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imgShowHidePasswordLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:srcCompat="@drawable/selector_password_show_hide" />
 
         </RelativeLayout>
 
