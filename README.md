@@ -9,8 +9,6 @@ A Simple Cryptocurrency Price Tracker App
   - [Real-time Coin Price Tracking](#real-time-coin-price-tracking)
   - [Firebase Authentication](#firebase-authentication)
   - [Favorites Page and Cloud Firestore](#my-coins-page-and-cloud-firestore)
-  - [Background Coin Price Tracking](#background-coin-price-tracking)
-- [Musts of Implementation](#musts-of-implementation)
 - [Installation](#installation)
 
 ## Introduction
