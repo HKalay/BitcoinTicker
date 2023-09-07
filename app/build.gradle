@@ -67,10 +67,6 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson:2.10'
 
-    // Room
-    implementation "androidx.room:room-runtime:2.5.0-alpha02"
-    kapt "androidx.room:room-compiler:2.5.0-alpha02"
-
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 

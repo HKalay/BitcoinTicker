@@ -23,7 +23,6 @@ import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.core.utils.BottomSheetScreenUtils
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
-import com.example.bitcointicker.data.database.CoinDbRoomDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.DatabaseReference
