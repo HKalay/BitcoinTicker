@@ -33,11 +33,6 @@ When users click on a coin in the search result list, they are directed to a det
 
 Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "My Coins" page.
 
-## Nice-to-Have Features
-
-### Background Coin Price Tracking
-
-The app includes an Android service that performs network calls to refresh current prices when the app is in the background.
 
 ### Internal Notification
 
