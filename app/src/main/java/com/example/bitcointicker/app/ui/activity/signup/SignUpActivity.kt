@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.text.InputType
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
+import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
+import com.example.bitcointicker.core.extensions.showAlertDialog
 import kotlinx.android.synthetic.main.activity_sign_up.btnSignUpCancel
+import kotlinx.android.synthetic.main.activity_sign_up.etEmailSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.etPasswordAgain
 import kotlinx.android.synthetic.main.activity_sign_up.etPasswordSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordAgainSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordSignUp
+import kotlinx.android.synthetic.main.activity_sign_up.llSave
 
 class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +61,33 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
             }
             etPasswordAgain.inputType = inputType
             initShowHidePasswordAgain()
+        }
+
+        llSave.setOnClickListener {
+            if (etEmailSignUp.text.isNullOrEmpty() || etPasswordSignUp.text.isNullOrEmpty() || etPasswordAgain.text.isNullOrEmpty()){
+                showAlertDialog(message = resources.getString(R.string.all_fii_must_filled))
+                return@setOnClickListener
+            }
+
+            if (!isEmailValid(email = etEmailSignUp.text.toString())){
+                showAlertDialog(message = resources.getString(R.string.valid_email_adress))
+                return@setOnClickListener
+            }
+
+            if (!isEmailValid(email = etEmailSignUp.text.toString())){
+                showAlertDialog(message = resources.getString(R.string.valid_email_adress))
+                return@setOnClickListener
+            }
+
+            if (etPasswordSignUp.text!!.length < 6){
+                showAlertDialog(message = resources.getString(R.string.pass_must_6_digits))
+                return@setOnClickListener
+            }
+
+            if (etPasswordSignUp.text.toString() != etPasswordAgain.text.toString()){
+                showAlertDialog(message = resources.getString(R.string.password_not_match))
+                return@setOnClickListener
+            }
         }
     }
 

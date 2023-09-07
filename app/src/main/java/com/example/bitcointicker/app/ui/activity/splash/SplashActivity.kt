@@ -20,7 +20,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
             if (sharedPrefManager.getIsLogin()) {
                 startActivity(Intent(this, HomeActivity::class.java))
             } else {
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             }
             overridePendingTransition(
                 R.anim.fade_in,
@@ -38,3 +38,4 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
 // TODO Şifremi unuttum yapılacak. Mail onaylı olacak
 // TODO sign up yaparken mail onayı olmalı
 // TODO ana sayfada filtre yaptığımız zaman veri yoksa veri yok diye layout göstersin.
+// TODO internet olmama durumunu kontrol edicez. OnResumede

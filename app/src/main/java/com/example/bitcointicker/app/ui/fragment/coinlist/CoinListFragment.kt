@@ -17,6 +17,7 @@ import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
 import com.example.bitcointicker.component.recyclerview.helper.setup
 import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
 import com.example.bitcointicker.core.extensions.gone
+import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.extensions.visible
 import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
@@ -116,6 +117,11 @@ class CoinListFragment : BaseFragment() {
                 when (result) {
                     is DataFetchResult.Failure -> {
                         loadingProgressCoins.gone()
+                        val message1 = resources.getString(R.string.something_went_wrong)
+                        val message2 = resources.getString(R.string.or)
+                        val message3 = resources.getString(R.string.no_internet)
+                        val message = "$message1\n$message2\n$message3"
+                        requireActivity().showAlertDialog(message)
                     }
 
                     is DataFetchResult.Progress -> {

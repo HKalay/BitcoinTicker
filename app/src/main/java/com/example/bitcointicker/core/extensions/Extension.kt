@@ -183,6 +183,11 @@ fun Context.showAlertDialog(message: String) {
     alertDialog.show()
 }
 
+fun isEmailValid(email: String): Boolean {
+    val pattern = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,4})+$".toRegex()
+    return pattern.matches(email)
+}
+
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
     Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T

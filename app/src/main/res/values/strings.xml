@@ -20,6 +20,10 @@
     <string name="sing_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="forgot_password">Forgot Password</string>
+    <string name="all_fii_must_filled">All fields must be filled for registration</string>
+    <string name="valid_email_adress">Please enter a valid e-mail address</string>
+    <string name="pass_must_6_digits">Your password must be more than 6 digits</string>
+    <string name="password_not_match">Passwords do not match</string>
 
     <!--COINS & FAVORITES-->
     <string name="coins">Coins</string>
