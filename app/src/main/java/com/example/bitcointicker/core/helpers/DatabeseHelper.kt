@@ -1,7 +1,6 @@
 package com.example.bitcointicker.core.helpers
 
 import android.content.Context
-import android.util.Log
 import com.example.bitcointicker.R
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
@@ -9,10 +8,10 @@ import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.values
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
@@ -103,8 +102,6 @@ class DatabeseHelper {
     fun deleteData(childId: String, context: Context) {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference(firebaseDbReferance)
-
-        // Belirli bir yol altındaki veriyi sil
         reference.child(childId).removeValue()
             .addOnFailureListener { e ->
                 context.showAlertDialog(message = e.localizedMessage)
@@ -120,5 +117,11 @@ class DatabeseHelper {
         } catch (e: Exception) {
             return false
         }
+    }
+
+    suspend fun getFavoritesList(): Flow<DataSnapshot?> {
+        val database = FirebaseDatabase.getInstance()
+        val reference = database.getReference(firebaseDbReferance)
+        return reference.values()
     }
 }

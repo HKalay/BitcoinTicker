@@ -46,7 +46,6 @@ class CoinListFragment : BaseFragment() {
     override val layoutResId = R.layout.fragment_coin_list
 
     override fun binds() {
-
         initClickListener()
         setupRecyclerView()
         getCoinList()
