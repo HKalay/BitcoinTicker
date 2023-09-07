@@ -132,14 +132,22 @@ class DatabeseHelper {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dataList = mutableListOf<CoinItemDTO>()
                 for (childSnapshot in dataSnapshot.children) {
-                    val gson = Gson()
-                    val myData = gson.fromJson(childSnapshot.value.toString(), CoinDbFirebaseRealtimeDTO::class.java)
-                    val coinResponseDTO = CoinResponseDTO(
+
+                    val myData = childSnapshot.getValue(CoinDbFirebaseRealtimeDTO::class.java)
+                    if (myData != null) {
+                        //dataList.add(myData)
+                    }
+
+                    Log.i("Merhaba",childSnapshot.value.toString())
+
+                    //val gson = Gson()
+                    //val myData = gson.fromJson(childSnapshot.value.toString(), CoinDbFirebaseRealtimeDTO::class.java)
+                    /*val coinResponseDTO = CoinResponseDTO(
                         id = myData.id,
                         symbol = myData.symbol,
                         name = myData.name
                     )
-                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
+                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))*/
                 }
                 onDataReceived(dataList)
             }

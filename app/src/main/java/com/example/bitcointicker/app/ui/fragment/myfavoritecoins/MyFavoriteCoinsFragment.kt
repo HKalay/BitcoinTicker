@@ -81,6 +81,7 @@ class MyFavoriteCoinsFragment : BaseFragment() {
             databeseHelper.getFavoritesList { dataList ->
                 if (dataList.isEmpty()) {
                     //TODO boş ise null layout göster
+                    // TODO geri geldiğimiz zaman içeriklerin hepsi kaldırılmışsa içerik bulunamadı yazısı olsun.
                 } else {
                     adapterPageList.getAdapter()
                         .updateAllItems(dataList)
