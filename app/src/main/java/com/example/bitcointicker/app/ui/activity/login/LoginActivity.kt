@@ -16,6 +16,7 @@ import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.extensions.visible
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.btnSignUp
 import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
@@ -95,13 +96,12 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                             finish()
                         } else {
                             loadingProgressLogin.gone()
-                            FirebaseAuth.getInstance().signOut()
                             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                             builder.setTitle(resources.getString(R.string.warning))
                             builder.setMessage(resources.getString(R.string.account_not_approved))
                             builder.setPositiveButton(R.string.yes) { dialog, _ ->
-                                //TODO tekrar mail gönderilecek
                                 dialog.dismiss()
+                                sendEmailVerification(user = user)
                             }
 
                             builder.setNegativeButton(R.string.no) { dialog, _ ->
@@ -122,6 +122,17 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                     loadingProgressLogin.gone()
                     val errorMessage = task.exception?.localizedMessage
                     showAlertDialog(message = errorMessage.toString())
+                }
+            }
+    }
+
+    private fun sendEmailVerification(user: FirebaseUser) {
+        user.sendEmailVerification()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    showAlertDialog(message = resources.getString(R.string.mail_send_again))
+                } else {
+                    showAlertDialog(message = task.exception?.localizedMessage.toString())
                 }
             }
     }

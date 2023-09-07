@@ -58,5 +58,6 @@
     <string name="warning">WARNING</string>
     <string name="exit_account">EXIT ACCOUNT</string>
     <string name="exit_account_question">Are you sure you want to exit the account?</string>
+    <string name="mail_send_again">Confirmation email sent again</string>
 
 </resources>

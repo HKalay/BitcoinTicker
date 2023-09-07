@@ -77,9 +77,5 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
 }
 
 //TODO veri tabanına kayıt işlemi roomamı olacak firebasemi olacak.
-// TODO sign yapılacak. Daha önce giriş yapılmışsa direk ana sayfaya atacak.
-// TODO sign up yapıacal
-// TODO Şifremi unuttum yapılacak. Mail onaylı olacak
-// TODO sign up yaparken mail onayı olmalı
+// TODO Şifremi unuttum yapılacak. Mail onaylı olacak. Tekrar ona maili gönderme yapılacak.
 // TODO ana sayfada filtre yaptığımız zaman veri yoksa veri yok diye layout göstersin.
-// TODO SignOut eklenecek. Signout edilen yerler mail ve şifre sıfırlanacak
