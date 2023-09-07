@@ -14,7 +14,6 @@ Bitcoin Ticker is a simple and user-friendly cryptocurrency price tracking app. 
   - [Firebase Authentication](#firebase-authentication)
   - [My Coins Page and Cloud Firestore](#my-coins-page-and-cloud-firestore)
   - [Background Coin Price Tracking](#background-coin-price-tracking)
-  - [Internal Notification](#internal-notification)
 - [Positive for Assessment](#positive-for-assessment)
 - [Musts of Implementation](#musts-of-implementation)
 - [Installation](#installation)
