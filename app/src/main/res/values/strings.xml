@@ -19,7 +19,6 @@
     <string name="enter_password_again">Enter your password again</string>
     <string name="sing_in">Sign in</string>
     <string name="sign_up">Sign up</string>
-    <string name="forgot_password">Forgot Password</string>
     <string name="all_fi_must_filled">All fields must be filled for registration</string>
     <string name="all_fi_have_filled">You have to fill in all fields to log in</string>
     <string name="valid_email_adress">Please enter a valid e-mail address</string>
