@@ -12,9 +12,6 @@ A Simple Cryptocurrency Price Tracker App
   - [Background Coin Price Tracking](#background-coin-price-tracking)
 - [Musts of Implementation](#musts-of-implementation)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
