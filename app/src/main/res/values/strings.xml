@@ -15,7 +15,7 @@
 
     <!--LOGIN & SIGNUP-->
     <string name="enter_email">Enter your email address</string>
-    <string name="enter_password">Enter your password address</string>
+    <string name="enter_password">Enter your password</string>
     <string name="enter_password_again">Enter your password again</string>
     <string name="sing_in">Sign in</string>
     <string name="sign_up">Sign up</string>

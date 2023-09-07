@@ -21,7 +21,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="128dp"
             android:layout_height="128dp"
-            app:srcCompat="@drawable/ic_login_account" />
+            app:srcCompat="@drawable/ic_add_person" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -71,8 +71,32 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_12dp_app_second_color">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etPasswordAgain"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/enter_password_again"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:textCursorDrawable="@color/cyan"
+                android:textSize="14sp"
+                app:fontFamily="@font/inter_medium" />
+
+        </RelativeLayout>
+
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llSignIn"
+            android:id="@+id/llSave"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
@@ -84,14 +108,14 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_login" />
+                app:srcCompat="@drawable/ic_save" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:includeFontPadding="false"
-                android:text="@string/sing_in"
+                android:text="@string/save"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:fontFamily="@font/inter_semibold" />
@@ -100,33 +124,18 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSignUp"
+            android:id="@+id/btnSignUpCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
             android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/sign_up"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:fontFamily="@font/inter_bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:background="@android:color/transparent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:text="@string/forgot_password"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:fontFamily="@font/inter_semibold" />
 
 
 </RelativeLayout>
