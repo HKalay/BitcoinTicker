@@ -29,7 +29,6 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
     private fun goHomeActivity(){
-
         Handler().postDelayed({
             startActivity(Intent(this, HomeActivity::class.java))
             overridePendingTransition(
@@ -41,7 +40,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
     private fun goLoginActivity(){
-
+        FirebaseAuth.getInstance().signOut()
         Handler().postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
             overridePendingTransition(

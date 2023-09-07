@@ -76,7 +76,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     private fun signIn(email: String, password: String) {
         loadingProgressLogin.visible()
-
+        FirebaseAuth.getInstance().signOut()
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
