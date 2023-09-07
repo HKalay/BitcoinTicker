@@ -2,7 +2,7 @@ package com.example.bitcointicker.app.db.repository
 
 import com.example.bitcointicker.app.db.dao.CoinDAO
 import com.example.bitcointicker.data.coin.CoinResponseDTO
-import com.example.bitcointicker.data.database.CoinDbDTO
+import com.example.bitcointicker.data.database.CoinDbRoomDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class RoomRepository @Inject constructor(
     private val coinDAO: CoinDAO,
 ) {
-    suspend fun getAllCoins(): List<CoinDbDTO> = withContext(Dispatchers.IO) {
+    suspend fun getAllCoins(): List<CoinDbRoomDTO> = withContext(Dispatchers.IO) {
         coinDAO.getAllCoins()
     }
 
@@ -18,7 +18,7 @@ class RoomRepository @Inject constructor(
         withContext(Dispatchers.IO)
         {
             coinDAO.insertCoin(
-                coinDbDTO = CoinDbDTO(
+                coinDbRoomDTO = CoinDbRoomDTO(
                     coinId = coinResponseDTO.id,
                     coinResponseDTO = coinResponseDTO
                 )
@@ -26,15 +26,15 @@ class RoomRepository @Inject constructor(
         }
     }
 
-    suspend fun getCoinWithId(id: String): CoinDbDTO =
+    suspend fun getCoinWithId(id: String): CoinDbRoomDTO =
         withContext(Dispatchers.IO) {
             coinDAO.getCoinWithId(id = id)
         }
 
-    suspend fun deleteCoin(coinDbDTO: CoinDbDTO) {
+    suspend fun deleteCoin(coinDbRoomDTO: CoinDbRoomDTO) {
         withContext(Dispatchers.IO)
         {
-            coinDAO.deleteCoin(id = coinDbDTO.id)
+            coinDAO.deleteCoin(id = coinDbRoomDTO.id)
         }
     }
 }

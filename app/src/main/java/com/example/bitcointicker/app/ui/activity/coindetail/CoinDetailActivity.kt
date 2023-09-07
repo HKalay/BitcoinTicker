@@ -22,9 +22,14 @@ import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.core.utils.BottomSheetScreenUtils
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
+import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
+import com.example.bitcointicker.data.database.CoinDbRoomDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
+import kotlinx.android.synthetic.main.activity_coin_detail.imgFavorite
 import kotlinx.android.synthetic.main.activity_coin_detail.llUpdateRefreshFrequency
 import kotlinx.android.synthetic.main.activity_coin_detail.tvActivePassiveStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
@@ -42,6 +47,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     private var coinId = ""
     private var scheduledExecutor: ScheduledExecutorService? = null
+    private lateinit var coinDetailResponseDTO: CoinDetailResponseDTO
 
     private val viewModel: ContentDetailViewModel by viewModels()
 
@@ -69,6 +75,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         intent?.let {
             it.parcelable<CoinDetailResponseDTO>(IntentPutData.COIN_DETAIL.value)
                 ?.let { intentData ->
+                    coinDetailResponseDTO = intentData
                     setupUI(coinDetailResponseDTO = intentData)
                 }
         }
@@ -103,6 +110,18 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         llUpdateRefreshFrequency.setOnClickListener {
             showRefreshFrequencyDialog()
         }
+
+        imgFavorite.setOnClickListener {
+            val database: DatabaseReference =
+                FirebaseDatabase.getInstance().getReference("Favorites")
+            val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
+                coinId = coinId,
+                coinDetailResponseDTO = coinDetailResponseDTO
+            )
+            database.child(coinId).setValue(coinDbFirebaseRealtimeDTODTO).addOnSuccessListener { Log.i("Merhaba","123123") }.addOnFailureListener {
+                showAlertDialog(message = it.localizedMessage)
+            }
+        }
     }
 
     private fun showRefreshFrequencyDialog() {
@@ -116,16 +135,23 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
         val root: LinearLayoutCompat =
             renewalFrequencyDialog.findViewById(R.id.rootParent)!!
-        val swRenewalFruquency: SwitchCompat? = renewalFrequencyDialog.findViewById(R.id.swItemRenewalFruquency)
-        val etRenewalFrequencyTime: AppCompatEditText? = renewalFrequencyDialog.findViewById(R.id.etItemRenewalFrequencyTime)
-        val btnRenewalFrequencyStatuSave: AppCompatButton? = renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuSave)
-        val btnRenewalFrequencyStatuCancel: AppCompatButton? = renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuCancel)
+        val swRenewalFruquency: SwitchCompat? =
+            renewalFrequencyDialog.findViewById(R.id.swItemRenewalFruquency)
+        val etRenewalFrequencyTime: AppCompatEditText? =
+            renewalFrequencyDialog.findViewById(R.id.etItemRenewalFrequencyTime)
+        val btnRenewalFrequencyStatuSave: AppCompatButton? =
+            renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuSave)
+        val btnRenewalFrequencyStatuCancel: AppCompatButton? =
+            renewalFrequencyDialog.findViewById(R.id.btnItemRenewalFrequencyStatuCancel)
 
         swRenewalFruquency?.isChecked = sharedPrefManager.getIsCoinRefreshIsActive(coindId = coinId)
-        etRenewalFrequencyTime?.setText(sharedPrefManager.getIsCoinRenewalFrequencyTime(coindId = coinId).toString())
+        etRenewalFrequencyTime?.setText(
+            sharedPrefManager.getIsCoinRenewalFrequencyTime(coindId = coinId).toString()
+        )
 
         btnRenewalFrequencyStatuSave?.setOnClickListener {
-            if (etRenewalFrequencyTime?.text.isNullOrEmpty() || etRenewalFrequencyTime?.text.toString().toInt() == 0
+            if (etRenewalFrequencyTime?.text.isNullOrEmpty() || etRenewalFrequencyTime?.text.toString()
+                    .toInt() == 0
             ) {
                 showAlertDialog(resources.getString(R.string.second_not_empty))
                 return@setOnClickListener

@@ -4,10 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.bitcointicker.app.db.dao.CoinDAO
-import com.example.bitcointicker.data.database.CoinDbDTO
+import com.example.bitcointicker.data.database.CoinDbRoomDTO
 
 @Database(
-    entities = [CoinDbDTO::class],
+    entities = [CoinDbRoomDTO::class],
     version = 1,
     exportSchema = false
 )

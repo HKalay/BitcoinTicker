@@ -11,7 +11,7 @@ import com.example.bitcointicker.data.coin.CoinResponseDTO
 
 @Parcelize
 @Entity(tableName = "saved_coins", indices = [Index(value = ["coin_id"], unique = true)])
-data class CoinDbDTO(
+data class CoinDbRoomDTO(
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,

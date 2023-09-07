@@ -80,7 +80,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
 
     // Firebase
-    implementation "com.google.firebase:firebase-auth:22.1.1"
+    implementation "com.google.firebase:firebase-auth-ktx:22.1.1"
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
 
     // Looping Layout
     implementation "com.github.beksomega:loopinglayout:0.4.1"

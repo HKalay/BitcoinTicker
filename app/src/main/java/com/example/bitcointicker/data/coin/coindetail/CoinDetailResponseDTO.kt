@@ -9,6 +9,9 @@ data class CoinDetailResponseDTO(
     @SerializedName("id")
     val id: String?,
 
+    @SerializedName("symbol")
+    var symbol: String,
+
     @SerializedName("name")
     val name: String?,
 
