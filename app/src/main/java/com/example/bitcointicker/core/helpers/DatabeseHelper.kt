@@ -27,7 +27,6 @@ class DatabeseHelper {
 
     data class LoginResult(val user: FirebaseUser?, val errorMessage: String?)
 
-
     fun loginIsSuccess(email: String, password: String): LoginResult? {
         var loginResult: LoginResult? = null
         val auth = FirebaseAuth.getInstance()
