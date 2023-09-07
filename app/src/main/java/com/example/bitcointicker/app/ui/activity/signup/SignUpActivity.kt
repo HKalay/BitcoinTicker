@@ -71,12 +71,7 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
 
         llSave.setOnClickListener {
             if (etEmailSignUp.text.isNullOrEmpty() || etPasswordSignUp.text.isNullOrEmpty() || etPasswordAgain.text.isNullOrEmpty()) {
-                showAlertDialog(message = resources.getString(R.string.all_fii_must_filled))
-                return@setOnClickListener
-            }
-
-            if (!isEmailValid(email = etEmailSignUp.text.toString())) {
-                showAlertDialog(message = resources.getString(R.string.valid_email_adress))
+                showAlertDialog(message = resources.getString(R.string.all_fi_must_filled))
                 return@setOnClickListener
             }
 
@@ -120,15 +115,13 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
                         )
                         finish()
                     } else {
-                        Log.i("Error_Message_1",verificationTask.exception.toString())
                         loadingProgressSignUp.gone()
-                        showAlertDialog(message = verificationTask.exception.toString())
+                        showAlertDialog(message = verificationTask.exception?.localizedMessage.toString())
                     }
                 }
             } else {
-                Log.i("Error_Message_2",task.exception.toString())
                 loadingProgressSignUp.gone()
-                showAlertDialog(message = task.exception.toString())
+                showAlertDialog(message = task.exception?.localizedMessage.toString())
             }
         }
     }

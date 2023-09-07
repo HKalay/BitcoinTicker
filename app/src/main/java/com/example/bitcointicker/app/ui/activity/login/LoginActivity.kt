@@ -6,11 +6,15 @@ import android.text.InputType
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.app.ui.activity.signup.SignUpActivity
+import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
-import com.example.bitcointicker.core.extensions.loadImageCircle
+import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.btnSignUp
+import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
 import kotlinx.android.synthetic.main.activity_login.imgShowHidePasswordLogin
+import kotlinx.android.synthetic.main.activity_login.llSignIn
 
 class LoginActivity : BaseActivity(R.layout.activity_login) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,41 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
             etPassword.inputType = inputType
             initShowHidePassword()
 
+        }
+
+        llSignIn.setOnClickListener {
+
+            if (etEmail.text.isNullOrEmpty() || etPassword.text.isNullOrEmpty()) {
+                showAlertDialog(message = resources.getString(R.string.all_fi_have_filled))
+                return@setOnClickListener
+            }
+
+            if (!isEmailValid(email = etEmail.text.toString())) {
+                showAlertDialog(message = resources.getString(R.string.valid_email_adress))
+                return@setOnClickListener
+            }
+
+            if (etPassword.text!!.length < 6) {
+                showAlertDialog(message = resources.getString(R.string.pass_must_6_digits))
+                return@setOnClickListener
+            }
+
+            signIn()
+        }
+    }
+
+    private fun signIn() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            // Kullanıcı oturum açtı, ancak e-posta adresi onaylanmadı
+            if (user.isEmailVerified) {
+                // Kullanıcı oturum açtı ve e-posta adresi onaylandı
+            } else {
+                // Kullanıcı oturum açtı, ancak e-posta adresi onaylanmadı
+                // E-posta onayı gönderme işlemine yönlendirin veya başka bir işlem yapın
+            }
+        } else {
+            // Kullanıcı oturum açmamış
         }
     }
 
