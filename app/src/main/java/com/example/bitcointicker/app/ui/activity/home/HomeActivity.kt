@@ -1,23 +1,29 @@
 package com.example.bitcointicker.app.ui.activity.home
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
+import com.example.bitcointicker.app.ui.activity.login.LoginActivity
 import com.example.bitcointicker.core.extensions.gone
 import com.example.bitcointicker.core.extensions.permissionPostNotificationAllGranted
 import com.example.bitcointicker.core.extensions.visible
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.bottomNavigation
 import kotlinx.android.synthetic.main.activity_home.containerCoinList
 import kotlinx.android.synthetic.main.activity_home.containerMyFavoriteCoins
+import kotlinx.android.synthetic.main.activity_home.imgAppExit
 import kotlinx.coroutines.launch
 
 private const val COINS_PAGE = "coins"
@@ -33,6 +39,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         showFragment(fragmentContainerView = containerCoinList)
         bottomNavigationClickListener()
         onBackPressedDispatcher()
+        initClickListener()
     }
 
     override fun onResume() {
@@ -40,7 +47,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         bottomNavigation.selectedItemId = selectedItem
     }
 
-    private fun permissionRequired(){
+    private fun permissionRequired() {
         lifecycleScope.launch {
             if (permissionPostNotificationAllGranted()) {
                 return@launch
@@ -48,7 +55,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         }
     }
 
-    private fun onBackPressedDispatcher(){
+    private fun onBackPressedDispatcher() {
         onBackPressedDispatcher.addCallback(this) {
             if (clickedPage == FAVORITES_PAGE) {
                 bottomNavigation.selectedItemId = R.id.navigation_coins
@@ -103,5 +110,32 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         }
         exitDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         exitDialog.show()
+    }
+
+    private fun initClickListener() {
+        imgAppExit.setOnClickListener {
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            builder.setTitle(resources.getString(R.string.exit_account))
+            builder.setMessage(resources.getString(R.string.exit_account_question))
+            builder.setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                exitAccount()
+            }
+
+            builder.setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            val alertDialog = builder.create()
+            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            alertDialog.show()
+        }
+    }
+
+    private fun exitAccount() {
+        FirebaseAuth.getInstance().signOut()
+        sharedPrefManager.setIsPassword(password = "")
+        sharedPrefManager.setIsEmail(email = "")
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
