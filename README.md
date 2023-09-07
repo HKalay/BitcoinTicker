@@ -8,7 +8,7 @@ A Simple Cryptocurrency Price Tracker App
   - [Coin Searching](#coin-searching)
   - [Real-time Coin Price Tracking](#real-time-coin-price-tracking)
   - [Firebase Authentication](#firebase-authentication)
-  - [My Coins Page and Cloud Firestore](#my-coins-page-and-cloud-firestore)
+  - [Favorites Page and Cloud Firestore](#my-coins-page-and-cloud-firestore)
   - [Background Coin Price Tracking](#background-coin-price-tracking)
 - [Musts of Implementation](#musts-of-implementation)
 - [Installation](#installation)
@@ -41,9 +41,9 @@ When users click on a coin in the search result list, they are directed to a det
 
 Bitcoin Ticker offers simple Firebase authentication using email for user registration and login.
 
-### My Coins Page and Cloud Firestore
+### Favorites Page and Cloud Firestore
 
-Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "My Coins" page.
+Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "Favorites" page.
 
 ## Nice-to-Have Features
 
