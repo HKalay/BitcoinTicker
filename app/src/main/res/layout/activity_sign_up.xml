@@ -54,7 +54,7 @@
             android:background="@drawable/shape_12dp_app_second_color">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etPasswordSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginStart="12dp"

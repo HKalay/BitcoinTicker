@@ -1,11 +1,13 @@
 package com.example.bitcointicker.app.ui.activity.signup
 
 import android.os.Bundle
+import android.text.InputType
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_login.etPassword
+import com.example.bitcointicker.core.extensions.loadImage
 import kotlinx.android.synthetic.main.activity_sign_up.btnSignUpCancel
 import kotlinx.android.synthetic.main.activity_sign_up.etPasswordAgain
+import kotlinx.android.synthetic.main.activity_sign_up.etPasswordSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordAgainSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordSignUp
 
@@ -13,6 +15,12 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        imgShowHidePasswordSignUp.isSelected = false
+        initShowHidePassword()
+
+        imgShowHidePasswordAgainSignUp.isSelected = false
+        initShowHidePasswordAgain()
 
         initClickListener()
     }
@@ -29,27 +37,44 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
         }
 
         imgShowHidePasswordSignUp.setOnClickListener {
-
-            //TODO burası düzenlecenecek resim değişmiyor.
             imgShowHidePasswordSignUp.isSelected = !imgShowHidePasswordSignUp.isSelected
             val inputType = if (imgShowHidePasswordSignUp.isSelected) {
-                129
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                128
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
-            etPassword.inputType = inputType
+            etPasswordSignUp.inputType = inputType
+            initShowHidePassword()
+
         }
 
         imgShowHidePasswordAgainSignUp.setOnClickListener {
-
-            //TODO burası düzenlecenecek resim değişmiyor.
             imgShowHidePasswordAgainSignUp.isSelected = !imgShowHidePasswordAgainSignUp.isSelected
             val inputType = if (imgShowHidePasswordAgainSignUp.isSelected) {
-                129
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                128
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             etPasswordAgain.inputType = inputType
+            initShowHidePasswordAgain()
         }
+    }
+
+    private fun initShowHidePassword() {
+        val image = if (imgShowHidePasswordSignUp.isSelected) {
+            R.drawable.ic_show_password
+        } else {
+            R.drawable.ic_hide_password
+        }
+        imgShowHidePasswordSignUp.loadImage(image)
+    }
+
+    private fun initShowHidePasswordAgain() {
+        val image = if (imgShowHidePasswordAgainSignUp.isSelected) {
+            R.drawable.ic_show_password
+        } else {
+            R.drawable.ic_hide_password
+        }
+        imgShowHidePasswordAgainSignUp.loadImage(image)
     }
 }
