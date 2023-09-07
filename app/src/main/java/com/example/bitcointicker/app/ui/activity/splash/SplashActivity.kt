@@ -38,3 +38,4 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
 // TODO Şifremi unuttum yapılacak. Mail onaylı olacak
 // TODO sign up yaparken mail onayı olmalı
 // TODO ana sayfada filtre yaptığımız zaman veri yoksa veri yok diye layout göstersin.
+// TODO Custom alert dialog eklenecek
