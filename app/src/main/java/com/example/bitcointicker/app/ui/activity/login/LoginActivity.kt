@@ -15,16 +15,22 @@ import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.extensions.visible
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.example.bitcointicker.core.helpers.DatabeseHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.btnSignUp
 import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
 import kotlinx.android.synthetic.main.activity_login.imgShowHidePasswordLogin
 import kotlinx.android.synthetic.main.activity_login.llSignIn
 import kotlinx.android.synthetic.main.activity_login.loadingProgressLogin
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity(R.layout.activity_login) {
+
+    @Inject
+    lateinit var databeseHelper: DatabeseHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initClickListener()
@@ -77,63 +83,45 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     private fun signIn(email: String, password: String) {
         loadingProgressLogin.visible()
-        FirebaseAuth.getInstance().signOut()
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = FirebaseAuth.getInstance().currentUser
-                    if (user != null) {
-                        if (user.isEmailVerified) {
 
-                            sharedPrefManager.setIsEmail(email = email)
-                            sharedPrefManager.setIsPassword(password = password)
+        val loginResult = databeseHelper.loginIsSuccess(email = email, password = password)
+        val user = loginResult?.user
+        val message = loginResult?.errorMessage
 
-                            startActivity(Intent(this, HomeActivity::class.java))
-                            overridePendingTransition(
-                                R.anim.fade_in,
-                                R.anim.fade_out
-                            )
-                            finish()
-                        } else {
-                            loadingProgressLogin.gone()
-                            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                            builder.setMessage(resources.getString(R.string.account_not_approved))
-                            builder.setPositiveButton(R.string.yes) { dialog, _ ->
-                                dialog.dismiss()
-                                sendEmailVerification(user = user)
-                            }
 
-                            builder.setNegativeButton(R.string.no) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            val alertDialog = builder.create()
-                            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                            alertDialog.show()
-                        }
-                    } else {
-                        val message1 = resources.getString(R.string.something_went_wrong)
-                        val message2 = resources.getString(R.string.or)
-                        val message3 = resources.getString(R.string.no_internet)
-                        val message = "$message1\n$message2\n$message3"
-                        showAlertDialog(message)
-                    }
-                } else {
-                    loadingProgressLogin.gone()
-                    val errorMessage = task.exception?.localizedMessage
-                    showAlertDialog(message = errorMessage.toString())
+        if (user != null) {
+            if (user.isEmailVerified) {
+                loadingProgressLogin.gone()
+                goHomeActivity()
+            } else {
+                loadingProgressLogin.gone()
+                val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                builder.setMessage(resources.getString(R.string.account_not_approved))
+                builder.setPositiveButton(R.string.yes) { dialog, _ ->
+                    dialog.dismiss()
+                    databeseHelper.sendEmailVerification(user = user, context = this)
                 }
+
+                builder.setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val alertDialog = builder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
             }
+        } else {
+            loadingProgressLogin.gone()
+            showAlertDialog(message.toString())
+        }
     }
 
-    private fun sendEmailVerification(user: FirebaseUser) {
-        user.sendEmailVerification()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    showAlertDialog(message = resources.getString(R.string.mail_send_again))
-                } else {
-                    showAlertDialog(message = task.exception?.localizedMessage.toString())
-                }
-            }
+    private fun goHomeActivity() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        overridePendingTransition(
+            R.anim.fade_in,
+            R.anim.fade_out
+        )
+        finish()
     }
 
     private fun initShowHidePassword() {
