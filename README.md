@@ -52,10 +52,10 @@ Users can add their favorite coins to the Cloud Firestore database by clicking t
 - [PermissionsExt](https://github.com/fondesa/kpermissions)
 - [Glide](https://bumptech.github.io/glide)
 - [Coroutines](https://developer.android.com/kotlin/coroutines)
-- [Gson]([https://developer.android.com/kotlin/coroutines](https://github.com/google/gson))
+- [Gson]([https://developer.android.com/kotlin/coroutines](https://github.com/google/gson)
 - [Lottie](https://github.com/airbnb/lottie-android)
 - [Retrofit](https://github.com/square/retrofit)
-- [Firebase]([https://github.com/square/retrofit](https://firebase.google.com/))
+- [Firebase]([https://github.com/square/retrofit](https://firebase.google.com/)
 
 ## Installation
 
