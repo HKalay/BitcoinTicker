@@ -115,7 +115,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private fun initClickListener() {
         imgAppExit.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-            builder.setTitle(resources.getString(R.string.exit_account))
             builder.setMessage(resources.getString(R.string.exit_account_question))
             builder.setPositiveButton(R.string.yes) { dialog, _ ->
                 dialog.dismiss()

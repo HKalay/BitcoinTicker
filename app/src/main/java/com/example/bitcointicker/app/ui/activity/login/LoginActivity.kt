@@ -97,7 +97,6 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                         } else {
                             loadingProgressLogin.gone()
                             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                            builder.setTitle(resources.getString(R.string.warning))
                             builder.setMessage(resources.getString(R.string.account_not_approved))
                             builder.setPositiveButton(R.string.yes) { dialog, _ ->
                                 dialog.dismiss()

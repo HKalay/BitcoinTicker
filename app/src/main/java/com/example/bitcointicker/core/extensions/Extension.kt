@@ -170,7 +170,6 @@ fun View.invisible() {
 
 fun Context.showAlertDialog(message: String) {
     val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-    builder.setTitle(this.resources.getString(R.string.warning))
     builder.setMessage(message)
     builder.setPositiveButton(R.string.ok) { dialog, _ ->
         dialog.dismiss()
