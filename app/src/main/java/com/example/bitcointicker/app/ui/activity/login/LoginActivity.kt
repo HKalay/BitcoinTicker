@@ -1,20 +1,27 @@
 package com.example.bitcointicker.app.ui.activity.login
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
+import androidx.appcompat.app.AlertDialog
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
+import com.example.bitcointicker.app.ui.activity.home.HomeActivity
 import com.example.bitcointicker.app.ui.activity.signup.SignUpActivity
+import com.example.bitcointicker.core.extensions.gone
 import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.example.bitcointicker.core.extensions.visible
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.btnSignUp
 import kotlinx.android.synthetic.main.activity_login.etEmail
 import kotlinx.android.synthetic.main.activity_login.etPassword
 import kotlinx.android.synthetic.main.activity_login.imgShowHidePasswordLogin
 import kotlinx.android.synthetic.main.activity_login.llSignIn
+import kotlinx.android.synthetic.main.activity_login.loadingProgressLogin
 
 class LoginActivity : BaseActivity(R.layout.activity_login) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,23 +70,48 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 return@setOnClickListener
             }
 
-            signIn()
+            signIn(email = etEmail.text.toString(), password = etPassword.text.toString())
         }
     }
 
-    private fun signIn() {
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            // Kullanıcı oturum açtı, ancak e-posta adresi onaylanmadı
-            if (user.isEmailVerified) {
-                // Kullanıcı oturum açtı ve e-posta adresi onaylandı
-            } else {
-                // Kullanıcı oturum açtı, ancak e-posta adresi onaylanmadı
-                // E-posta onayı gönderme işlemine yönlendirin veya başka bir işlem yapın
+    private fun signIn(email: String, password: String) {
+        loadingProgressLogin.visible()
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    if (user != null) {
+                        if (user.isEmailVerified) {
+                            startActivity(Intent(this, HomeActivity::class.java))
+                            overridePendingTransition(
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
+                            finish()
+                        } else {
+                            FirebaseAuth.getInstance().signOut()
+                            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                            builder.setTitle(resources.getString(R.string.warning))
+                            builder.setMessage(resources.getString(R.string.account_not_approved))
+                            builder.setPositiveButton(R.string.yes) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+
+                            builder.setNegativeButton(R.string.no) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            val alertDialog = builder.create()
+                            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                            alertDialog.show()
+                        }
+                    }
+                } else {
+                    loadingProgressLogin.gone()
+                    val errorMessage = task.exception?.localizedMessage
+                    showAlertDialog(message = errorMessage.toString())
+                }
             }
-        } else {
-            // Kullanıcı oturum açmamış
-        }
     }
 
     private fun initShowHidePassword() {

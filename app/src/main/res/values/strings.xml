@@ -27,6 +27,7 @@
     <string name="password_not_match">Passwords do not match</string>
     <string name="signup_success">Registration was successful. After confirming your account, you can log in.</string>
     <string name="login">Login</string>
+    <string name="account_not_approved">Your account has not been approved. Would you like to receive a confirmation email again?</string>
 
     <!--COINS & FAVORITES-->
     <string name="coins">Coins</string>
