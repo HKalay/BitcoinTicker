@@ -48,6 +48,7 @@ Users can add their favorite coins to the Cloud Firestore database by clicking t
 ## Technologies Used 
 
 - [Material Design for Android](https://developer.android.com/develop/ui/views/theming/look-and-feel)
+- [Dependency injection with Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 
 ## Installation
 
