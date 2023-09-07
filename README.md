@@ -6,8 +6,6 @@ A Simple Cryptocurrency Price Tracker App
 
 Bitcoin Ticker is a simple and user-friendly cryptocurrency price tracking app. It allows users to search for cryptocurrency information, view real-time prices, and manage their favorite coins.
 
-![Screenshot](link_to_screenshot)
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Core Features](#core-features)
