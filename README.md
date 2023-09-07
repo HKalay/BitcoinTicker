@@ -56,6 +56,7 @@ Users can add their favorite coins to the Cloud Firestore database by clicking t
 - [Lottie](https://github.com/airbnb/lottie-android)
 - [Retrofit](https://github.com/square/retrofit)
 - [Firebase](https://firebase.google.com)
+- [Kotlin Flow](https://developer.android.com/kotlin/flow)
 
 ## Installation
 
