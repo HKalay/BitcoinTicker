@@ -45,16 +45,6 @@ Bitcoin Ticker offers simple Firebase authentication using email for user regist
 
 Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "Favorites" page.
 
-## Nice-to-Have Features
-
-### Background Coin Price Tracking
-
-The app includes an Android service that performs network calls to refresh current prices when the app is in the background.
-
-### Internal Notification
-
-Bitcoin Ticker sends notifications if there are price changes in the favorite coins, keeping users informed about market fluctuations.
-
 ## Musts of Implementation
 
 - Developed in Kotlin.
