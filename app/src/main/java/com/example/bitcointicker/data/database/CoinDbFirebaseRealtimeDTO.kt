@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CoinDbFirebaseRealtimeDTO(
-    var coinId: String,
     var coinDetailResponseDTO: CoinDetailResponseDTO
 ): Parcelable
 

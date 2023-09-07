@@ -2,16 +2,18 @@ package com.example.bitcointicker.core.helpers
 
 import android.content.Context
 import com.example.bitcointicker.R
+import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
 import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.example.bitcointicker.data.coin.CoinResponseDTO
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.values
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
@@ -88,7 +90,6 @@ class DatabeseHelper {
         val database: DatabaseReference =
             FirebaseDatabase.getInstance().getReference(firebaseDbReferance)
         val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
-            coinId = coinId,
             coinDetailResponseDTO = coinDetailResponseDTO
         )
 
@@ -119,9 +120,32 @@ class DatabeseHelper {
         }
     }
 
-    suspend fun getFavoritesList(): Flow<DataSnapshot?> {
+    fun getFavoritesList(onDataReceived: (List<CoinItemDTO>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference(firebaseDbReferance)
-        return reference.values()
+
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val dataList = mutableListOf<CoinItemDTO>()
+                for (childSnapshot in dataSnapshot.children) {
+
+                    val myData = childSnapshot.getValue(CoinDbFirebaseRealtimeDTO::class.java)
+                    if (myData != null) {
+                        val coinResponseDTO = CoinResponseDTO(
+                            id = myData.coinDetailResponseDTO.id.toString(),
+                            symbol = myData.coinDetailResponseDTO.symbol,
+                            name = myData.coinDetailResponseDTO.name.toString()
+                        )
+                        dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
+                    }
+                }
+
+                onDataReceived(dataList)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
     }
 }

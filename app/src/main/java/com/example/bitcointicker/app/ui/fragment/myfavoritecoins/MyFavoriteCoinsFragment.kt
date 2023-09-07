@@ -1,18 +1,24 @@
 package com.example.bitcointicker.app.ui.fragment.myfavoritecoins
 
-import android.util.Log
+import android.content.Intent
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseFragment
+import com.example.bitcointicker.app.ui.activity.coindetail.CoinDetailActivity
+import com.example.bitcointicker.app.ui.fragment.myfavoritecoins.viewmodel.MyFavoriteCoinsViewModel
 import com.example.bitcointicker.component.recyclerview.RecyclerviewAdapter
 import com.example.bitcointicker.component.recyclerview.helper.DisplayItem
 import com.example.bitcointicker.component.recyclerview.helper.setup
 import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
 import com.example.bitcointicker.core.extensions.gone
+import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.extensions.visible
 import com.example.bitcointicker.core.helpers.DatabeseHelper
+import com.example.bitcointicker.core.intent.IntentPutData
+import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_my_favorite_coins.loadingProgressCoinsFavorite
 import kotlinx.android.synthetic.main.fragment_my_favorite_coins.rvCoinFavoriteList
@@ -28,12 +34,19 @@ class MyFavoriteCoinsFragment : BaseFragment() {
     @Inject
     lateinit var databeseHelper: DatabeseHelper
 
+    private val viewModel: MyFavoriteCoinsViewModel by activityViewModels()
+
+
     override val layoutResId = R.layout.fragment_my_favorite_coins
 
     override fun binds() {
         initClickListener()
         setupRecyclerView()
-        getCoinList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //getCoinList()
     }
 
     private fun setupRecyclerView() {
@@ -55,7 +68,7 @@ class MyFavoriteCoinsFragment : BaseFragment() {
                     is CoinItemDTO -> {
                         if (view.id == R.id.rootItemCoinCard) {
 
-                            //getCoinDetail(id = item.coinResponseDTO.id)
+                            getCoinDetail(id = item.coinResponseDTO.id)
                         }
                     }
                 }
@@ -65,37 +78,19 @@ class MyFavoriteCoinsFragment : BaseFragment() {
     private fun getCoinList() {
         visibleView(view = loadingProgressCoinsFavorite)
         viewLifecycleOwner.lifecycleScope.launch {
-
-            val aa  = databeseHelper.getFavoritesList()
-
-            Log.i("Merhaba",aa.toString())
-
-            /*viewModel.getCoinList().collect { result ->
-                when (result) {
-                    is DataFetchResult.Failure -> {
-                        visibleView(view = errorView)
-                    }
-
-                    is DataFetchResult.Progress -> {
-
-                    }
-
-                    is DataFetchResult.Success -> {
-                        result.data.forEach {
-                            coinList.add(element = CoinItemDTO(coinResponseDTO = it))
-                        }
-
-                        adapterPageList.getAdapter()
-                            .updateAllItems(coinList)
-
-                        visibleView(view = rvSuccessView)
-                    }
+            databeseHelper.getFavoritesList { dataList ->
+                if (dataList.isEmpty()) {
+                    //TODO boş ise null layout göster
+                } else {
+                    adapterPageList.getAdapter()
+                        .updateAllItems(dataList)
                 }
-            }*/
+                visibleView(rvCoinFavoriteList)
+            }
         }
     }
 
-    /*private fun getCoinDetail(id: String) {
+    private fun getCoinDetail(id: String) {
         loadingProgressCoinsFavorite.visible()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCoinDetail(id = id).collect { result ->
@@ -130,7 +125,7 @@ class MyFavoriteCoinsFragment : BaseFragment() {
                 }
             }
         }
-    }*/
+    }
 
     private fun visibleView(view: View) {
         loadingProgressCoinsFavorite.gone()

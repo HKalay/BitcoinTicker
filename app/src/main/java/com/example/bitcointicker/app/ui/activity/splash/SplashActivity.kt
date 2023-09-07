@@ -56,6 +56,3 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
         }, 2000)
     }
 }
-
-// TODO ana sayfada filtre yaptığımız zaman veri yoksa veri yok diye layout göstersin.
-// TODO parcelize ile alakalı çıkan hatalar silinecek. DTOlara bakılacak
