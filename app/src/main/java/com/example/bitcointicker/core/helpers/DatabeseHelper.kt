@@ -13,18 +13,14 @@ class DatabeseHelper {
         FirebaseAuth.getInstance().signOut()
     }
 
-    fun getUserToken(): String {
-
-        val user = FirebaseAuth.getInstance().currentUser
-
-        var userToken = ""
-        user?.getIdToken(true)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    userToken = task.result?.token.toString()
-                }
-            }
-        return userToken
+    suspend fun getUserToken(): String {
+        return try {
+            val user = FirebaseAuth.getInstance().currentUser
+            val result = user?.getIdToken(true)?.await()
+           return result?.token.toString()
+        } catch (e: Exception) {
+            ""
+        }
     }
 
     data class UserResult(val user: FirebaseUser?, val errorMessage: String?)
