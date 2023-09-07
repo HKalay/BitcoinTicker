@@ -14,16 +14,20 @@ import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.app.ui.activity.coindetail.viewmodel.ContentDetailViewModel
+import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.loadImageCircle
 import com.example.bitcointicker.core.extensions.parcelable
 import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.example.bitcointicker.core.helpers.DatabeseHelper
 import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.core.utils.BottomSheetScreenUtils
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
+import kotlinx.android.synthetic.main.activity_coin_detail.imgFavorite
 import kotlinx.android.synthetic.main.activity_coin_detail.llUpdateRefreshFrequency
 import kotlinx.android.synthetic.main.activity_coin_detail.tvActivePassiveStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
@@ -36,12 +40,17 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
 
     private var coinId = ""
     private var scheduledExecutor: ScheduledExecutorService? = null
     private lateinit var coinDetailResponseDTO: CoinDetailResponseDTO
+
+    @Inject
+    lateinit var databeseHelper: DatabeseHelper
 
     private val viewModel: ContentDetailViewModel by viewModels()
 
@@ -51,7 +60,9 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
         initClickListener()
         setupRenewalfrequencyStatus()
         refreshData()
+        checkFavorite(coinId = coinId)
     }
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -105,17 +116,24 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             showRefreshFrequencyDialog()
         }
 
-        /*imgFavorite.setOnClickListener {
-            val database: DatabaseReference =
-                FirebaseDatabase.getInstance().getReference("Favorites")
-            val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
-                coinId = coinId,
-                coinDetailResponseDTO = coinDetailResponseDTO
-            )
-            database.child(coinId).setValue(coinDbFirebaseRealtimeDTODTO).addOnSuccessListener { Log.i("Merhaba","123123") }.addOnFailureListener {
-                showAlertDialog(message = it.localizedMessage)
+        imgFavorite.setOnClickListener {
+            lifecycleScope.launch {
+
+                val dataCheck = databeseHelper.childExistsData(coinId)
+
+                if (dataCheck){
+                    databeseHelper.deleteData(childId = coinId, context = this@CoinDetailActivity)
+                }else{
+                    databeseHelper.insertData(
+                        coinDetailResponseDTO = coinDetailResponseDTO,
+                        context = this@CoinDetailActivity
+                    )
+                }
+
+
+                checkFavorite(coinId = coinId)
             }
-        }*/
+        }
     }
 
     private fun showRefreshFrequencyDialog() {
@@ -245,5 +263,18 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             delay,
             TimeUnit.SECONDS
         )
+    }
+
+    private fun checkFavorite(coinId: String) {
+        lifecycleScope.launch {
+            val dataCheck = databeseHelper.childExistsData(coinId)
+
+            val image = if (dataCheck) {
+                R.drawable.ic_favorite_select
+            } else {
+                R.drawable.ic_favorite_unselect
+            }
+            imgFavorite.loadImage(image)
+        }
     }
 }

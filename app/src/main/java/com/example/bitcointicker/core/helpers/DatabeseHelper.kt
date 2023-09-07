@@ -1,13 +1,25 @@
 package com.example.bitcointicker.core.helpers
 
 import android.content.Context
+import android.util.Log
 import com.example.bitcointicker.R
 import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
+import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
+
+    val firebaseDbReferance = "Favorites"
+
+    data class UserResult(val user: FirebaseUser?, val errorMessage: String?)
 
     fun signOut() {
         FirebaseAuth.getInstance().signOut()
@@ -17,14 +29,11 @@ class DatabeseHelper {
         return try {
             val user = FirebaseAuth.getInstance().currentUser
             val result = user?.getIdToken(true)?.await()
-           return result?.token.toString()
+            return result?.token.toString()
         } catch (e: Exception) {
             ""
         }
     }
-
-    data class UserResult(val user: FirebaseUser?, val errorMessage: String?)
-
 
     suspend fun createAccountIsSuccess(
         email: String,
@@ -69,5 +78,47 @@ class DatabeseHelper {
                     context.showAlertDialog(message = task.exception?.localizedMessage.toString())
                 }
             }
+    }
+
+    suspend fun insertData(coinDetailResponseDTO: CoinDetailResponseDTO, context: Context) {
+        val coinId = coinDetailResponseDTO.id.toString()
+        if (childExistsData(childId = coinId)) {
+            return
+        }
+
+        val database: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference(firebaseDbReferance)
+        val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
+            coinId = coinId,
+            coinDetailResponseDTO = coinDetailResponseDTO
+        )
+
+
+        database.child(coinId).setValue(coinDbFirebaseRealtimeDTODTO)
+            .addOnFailureListener {
+                context.showAlertDialog(message = it.localizedMessage)
+            }
+    }
+
+    fun deleteData(childId: String, context: Context) {
+        val database = FirebaseDatabase.getInstance()
+        val reference = database.getReference(firebaseDbReferance)
+
+        // Belirli bir yol altındaki veriyi sil
+        reference.child(childId).removeValue()
+            .addOnFailureListener { e ->
+                context.showAlertDialog(message = e.localizedMessage)
+            }
+    }
+
+    suspend fun childExistsData(childId: String): Boolean {
+        return try {
+            val database = FirebaseDatabase.getInstance()
+            val reference = database.getReference(firebaseDbReferance)
+            val snapshot = reference.child(childId).get().await()
+            return snapshot.exists()
+        } catch (e: Exception) {
+            return false
+        }
     }
 }
