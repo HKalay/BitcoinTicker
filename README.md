@@ -57,6 +57,7 @@ Users can add their favorite coins to the Cloud Firestore database by clicking t
 - [Retrofit](https://github.com/square/retrofit)
 - [Firebase](https://firebase.google.com)
 - [Kotlin Flow](https://developer.android.com/kotlin/flow)
+- [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 
 ## Installation
 
