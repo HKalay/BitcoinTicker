@@ -37,7 +37,8 @@
     <!--WARNING MESSAGES-->
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="no_internet">There is no internet connection</string>
-    <string name="authentication_failed">"Authentication failed."</string>
+    <string name="authentication_failed">Authentication failed.</string>
+    <string name="not_found_favorite_data">No data saved in favorites found!</string>
 
     <!--COIN DETAIL-->
     <string name="coin_detail">Coin Detail</string>

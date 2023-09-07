@@ -36,7 +36,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     @Inject
     lateinit var databeseHelper: DatabeseHelper
 
-    private var selectedItem = R.id.navigation_coins
     private var clickedPage = COINS_PAGE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +44,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         bottomNavigationClickListener()
         onBackPressedDispatcher()
         initClickListener()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        bottomNavigation.selectedItemId = selectedItem
     }
 
     private fun permissionRequired() {

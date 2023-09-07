@@ -1,6 +1,7 @@
 package com.example.bitcointicker.app.ui.fragment.myfavoritecoins
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.example.bitcointicker.core.helpers.DatabeseHelper
 import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_my_favorite_coins.llItemNoData
 import kotlinx.android.synthetic.main.fragment_my_favorite_coins.loadingProgressCoinsFavorite
 import kotlinx.android.synthetic.main.fragment_my_favorite_coins.rvCoinFavoriteList
 import kotlinx.coroutines.launch
@@ -80,13 +82,12 @@ class MyFavoriteCoinsFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             databeseHelper.getFavoritesList { dataList ->
                 if (dataList.isEmpty()) {
-                    //TODO boş ise null layout göster
-                    // TODO geri geldiğimiz zaman içeriklerin hepsi kaldırılmışsa içerik bulunamadı yazısı olsun.
+                    visibleView(view = llItemNoData)
                 } else {
                     adapterPageList.getAdapter()
                         .updateAllItems(dataList)
+                    visibleView(rvCoinFavoriteList)
                 }
-                visibleView(rvCoinFavoriteList)
             }
         }
     }
@@ -130,6 +131,7 @@ class MyFavoriteCoinsFragment : BaseFragment() {
 
     private fun visibleView(view: View) {
         loadingProgressCoinsFavorite.gone()
+        llItemNoData.gone()
         rvCoinFavoriteList.gone()
 
         view.visible()

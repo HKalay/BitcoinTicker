@@ -128,26 +128,23 @@ class DatabeseHelper {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference(firebaseDbReferance)
 
+
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dataList = mutableListOf<CoinItemDTO>()
+
                 for (childSnapshot in dataSnapshot.children) {
+                    val id: String = childSnapshot.child("id").getValue(String::class.java)!!
+                    val name: String = childSnapshot.child("name").getValue(String::class.java)!!
+                    val symbol: String =
+                        childSnapshot.child("symbol").getValue(String::class.java)!!
 
-                    val myData = childSnapshot.getValue(CoinDbFirebaseRealtimeDTO::class.java)
-                    if (myData != null) {
-                        //dataList.add(myData)
-                    }
-
-                    Log.i("Merhaba",childSnapshot.value.toString())
-
-                    //val gson = Gson()
-                    //val myData = gson.fromJson(childSnapshot.value.toString(), CoinDbFirebaseRealtimeDTO::class.java)
-                    /*val coinResponseDTO = CoinResponseDTO(
-                        id = myData.id,
-                        symbol = myData.symbol,
-                        name = myData.name
+                    val coinResponseDTO = CoinResponseDTO(
+                        id = id,
+                        symbol = symbol,
+                        name = name
                     )
-                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))*/
+                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
                 }
                 onDataReceived(dataList)
             }
