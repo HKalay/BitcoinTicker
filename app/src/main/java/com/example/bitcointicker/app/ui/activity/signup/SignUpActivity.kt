@@ -7,6 +7,7 @@ import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.showAlertDialog
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_up.btnSignUpCancel
 import kotlinx.android.synthetic.main.activity_sign_up.etEmailSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.etPasswordAgain
@@ -34,7 +35,7 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
-    private fun initClickListener(){
+    private fun initClickListener() {
         btnSignUpCancel.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
@@ -64,31 +65,57 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
         }
 
         llSave.setOnClickListener {
-            if (etEmailSignUp.text.isNullOrEmpty() || etPasswordSignUp.text.isNullOrEmpty() || etPasswordAgain.text.isNullOrEmpty()){
+            if (etEmailSignUp.text.isNullOrEmpty() || etPasswordSignUp.text.isNullOrEmpty() || etPasswordAgain.text.isNullOrEmpty()) {
                 showAlertDialog(message = resources.getString(R.string.all_fii_must_filled))
                 return@setOnClickListener
             }
 
-            if (!isEmailValid(email = etEmailSignUp.text.toString())){
+            if (!isEmailValid(email = etEmailSignUp.text.toString())) {
                 showAlertDialog(message = resources.getString(R.string.valid_email_adress))
                 return@setOnClickListener
             }
 
-            if (!isEmailValid(email = etEmailSignUp.text.toString())){
+            if (!isEmailValid(email = etEmailSignUp.text.toString())) {
                 showAlertDialog(message = resources.getString(R.string.valid_email_adress))
                 return@setOnClickListener
             }
 
-            if (etPasswordSignUp.text!!.length < 6){
+            if (etPasswordSignUp.text!!.length < 6) {
                 showAlertDialog(message = resources.getString(R.string.pass_must_6_digits))
                 return@setOnClickListener
             }
 
-            if (etPasswordSignUp.text.toString() != etPasswordAgain.text.toString()){
+            if (etPasswordSignUp.text.toString() != etPasswordAgain.text.toString()) {
                 showAlertDialog(message = resources.getString(R.string.password_not_match))
                 return@setOnClickListener
             }
+
+            signUp(
+                email = etEmailSignUp.text.toString(),
+                password = etPasswordSignUp.text.toString()
+            )
         }
+    }
+
+    private fun signUp(email: String, password: String) {
+        val auth = FirebaseAuth.getInstance()
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    user?.sendEmailVerification()
+                        ?.addOnCompleteListener { verificationTask ->
+                            if (verificationTask.isSuccessful) {
+
+                            } else {
+                                showAlertDialog(message = verificationTask.exception.toString())
+                            }
+                        }
+                } else {
+                    showAlertDialog(message = task.exception.toString())
+                }
+            }
     }
 
     private fun initShowHidePassword() {
