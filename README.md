@@ -47,7 +47,7 @@ Users can add their favorite coins to the Cloud Firestore database by clicking t
 
 ## Technologies Used 
 
-- Material Design for Android
+- [Material Design for Android](https://developer.android.com/develop/ui/views/theming/look-and-feel)
 
 ## Installation
 
