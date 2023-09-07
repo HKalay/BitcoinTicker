@@ -1,4 +1,5 @@
 # BitcoinTicker 
 
-✅ Software Design Architecture (MVVM)
+# Software Design Architecture 
+(MVVM)
 
