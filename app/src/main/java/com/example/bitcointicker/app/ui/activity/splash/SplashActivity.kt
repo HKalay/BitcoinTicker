@@ -1,12 +1,17 @@
 package com.example.bitcointicker.app.ui.activity.splash
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AlertDialog
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.app.ui.activity.home.HomeActivity
 import com.example.bitcointicker.app.ui.activity.login.LoginActivity
+import com.example.bitcointicker.core.extensions.gone
+import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : BaseActivity(R.layout.activity_splash) {
@@ -16,15 +21,34 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
     private fun login() {
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            if (user.isEmailVerified) {
-                goHomeActivity()
-            } else {
-                goLoginActivity()
-            }
-        }else{
+        val email = sharedPrefManager.getEmail()
+        val password = sharedPrefManager.getPassword()
+
+        if (email.isEmpty() || password.isEmpty()){
             goLoginActivity()
+            return
+        }else{
+            FirebaseAuth.getInstance().signOut()
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val user = FirebaseAuth.getInstance().currentUser
+                        if (user != null) {
+                            if (user.isEmailVerified) {
+                                sharedPrefManager.setIsEmail(email = email)
+                                sharedPrefManager.setIsPassword(password = password)
+                                goHomeActivity()
+                            } else {
+                                goLoginActivity()
+                            }
+                        } else {
+                            goLoginActivity()
+                        }
+                    } else {
+                        val errorMessage = task.exception?.localizedMessage
+                        goLoginActivity()
+                    }
+                }
         }
     }
 

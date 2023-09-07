@@ -83,6 +83,10 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                     val user = FirebaseAuth.getInstance().currentUser
                     if (user != null) {
                         if (user.isEmailVerified) {
+
+                            sharedPrefManager.setIsEmail(email = email)
+                            sharedPrefManager.setIsPassword(password = password)
+
                             startActivity(Intent(this, HomeActivity::class.java))
                             overridePendingTransition(
                                 R.anim.fade_in,
@@ -90,11 +94,13 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                             )
                             finish()
                         } else {
+                            loadingProgressLogin.gone()
                             FirebaseAuth.getInstance().signOut()
                             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                             builder.setTitle(resources.getString(R.string.warning))
                             builder.setMessage(resources.getString(R.string.account_not_approved))
                             builder.setPositiveButton(R.string.yes) { dialog, _ ->
+                                //TODO tekrar mail gönderilecek
                                 dialog.dismiss()
                             }
 
@@ -105,6 +111,12 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                             alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                             alertDialog.show()
                         }
+                    } else {
+                        val message1 = resources.getString(R.string.something_went_wrong)
+                        val message2 = resources.getString(R.string.or)
+                        val message3 = resources.getString(R.string.no_internet)
+                        val message = "$message1\n$message2\n$message3"
+                        showAlertDialog(message)
                     }
                 } else {
                     loadingProgressLogin.gone()
