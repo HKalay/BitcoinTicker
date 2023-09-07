@@ -46,5 +46,6 @@
     <string name="renewal_frequency_status">Renewal frequency status</string>
     <string name="refresh_frequency">Refresh frequency (Seconds)</string>
     <string name="second_not_empty">Second field cannot be empty or 0</string>
+    <string name="warning">WARNING</string>
 
 </resources>

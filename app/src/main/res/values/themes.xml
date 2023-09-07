@@ -9,4 +9,11 @@
     <style name="Theme.BitcoinTicker"  parent="Theme.AppCompat.NoActionBar">
         <item name="android:statusBarColor">@color/app_main_color</item>
     </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@drawable/custom_alert_dialog_background</item>
+
+
+        <item name="android:textColorPrimary">@color/white</item> <!-- Örnek olarak kırmızı -->
+    </style>
 </resources>

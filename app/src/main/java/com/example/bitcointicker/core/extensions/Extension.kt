@@ -1,8 +1,11 @@
 package com.example.bitcointicker.core.extensions
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
@@ -12,6 +15,7 @@ import android.os.Looper
 import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -128,11 +132,20 @@ fun ImageView.loadImageCircle(url: String) {
         .load(url)
         .skipMemoryCache(true)
         .placeholder(shimmerDrawable)
-        .transform(RoundedCornersTransformation(360, 0, RoundedCornersTransformation.CornerType.ALL))
+        .transform(
+            RoundedCornersTransformation(
+                360,
+                0,
+                RoundedCornersTransformation.CornerType.ALL
+            )
+        )
         .apply(RequestOptions.circleCropTransform())
         .into(object : CustomTarget<Drawable>() {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                val circularBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, (resource as BitmapDrawable).bitmap)
+                val circularBitmapDrawable = RoundedBitmapDrawableFactory.create(
+                    resources,
+                    (resource as BitmapDrawable).bitmap
+                )
                 circularBitmapDrawable.isCircular = true
                 setImageDrawable(circularBitmapDrawable)
             }
@@ -155,15 +168,19 @@ fun View.invisible() {
     }
 }
 
-fun Context.showAlertDialog(message: String){
-    val builder = AlertDialog.Builder(this)
-    builder.setTitle("Message");
+fun Context.showAlertDialog(message: String) {
+    val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+    builder.setTitle(this.resources.getString(R.string.warning))
     builder.setMessage(message)
     builder.setPositiveButton(R.string.ok) { dialog, _ ->
         dialog.dismiss()
     }
 
-    builder.show()
+    val alertDialog = builder.create()
+
+    alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    alertDialog.show()
 }
 
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
