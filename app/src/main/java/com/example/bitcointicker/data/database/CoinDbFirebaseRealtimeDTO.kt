@@ -1,12 +1,13 @@
 package com.example.bitcointicker.data.database
 
 import android.os.Parcelable
-import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
 import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
 data class CoinDbFirebaseRealtimeDTO(
-    var coinDetailResponseDTO: CoinDetailResponseDTO
-): Parcelable
+    var id: String,
+    var symbol: String,
+    var name: String
+) : Parcelable
 

@@ -1,6 +1,7 @@
 package com.example.bitcointicker.core.helpers
 
 import android.content.Context
+import android.util.Log
 import com.example.bitcointicker.R
 import com.example.bitcointicker.component.ui.coinitem.CoinItemDTO
 import com.example.bitcointicker.core.extensions.showAlertDialog
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
@@ -90,7 +92,9 @@ class DatabeseHelper {
         val database: DatabaseReference =
             FirebaseDatabase.getInstance().getReference(firebaseDbReferance)
         val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
-            coinDetailResponseDTO = coinDetailResponseDTO
+            id = coinId,
+            name = coinDetailResponseDTO.name.toString(),
+            symbol = coinDetailResponseDTO.symbol
         )
 
 
@@ -128,18 +132,15 @@ class DatabeseHelper {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dataList = mutableListOf<CoinItemDTO>()
                 for (childSnapshot in dataSnapshot.children) {
-
-                    val myData = childSnapshot.getValue(CoinDbFirebaseRealtimeDTO::class.java)
-                    if (myData != null) {
-                        val coinResponseDTO = CoinResponseDTO(
-                            id = myData.coinDetailResponseDTO.id.toString(),
-                            symbol = myData.coinDetailResponseDTO.symbol,
-                            name = myData.coinDetailResponseDTO.name.toString()
-                        )
-                        dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
-                    }
+                    val gson = Gson()
+                    val myData = gson.fromJson(childSnapshot.value.toString(), CoinDbFirebaseRealtimeDTO::class.java)
+                    val coinResponseDTO = CoinResponseDTO(
+                        id = myData.id,
+                        symbol = myData.symbol,
+                        name = myData.name
+                    )
+                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
                 }
-
                 onDataReceived(dataList)
             }
 

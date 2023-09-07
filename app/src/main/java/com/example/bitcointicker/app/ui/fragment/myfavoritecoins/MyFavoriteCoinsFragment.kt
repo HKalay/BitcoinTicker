@@ -46,7 +46,7 @@ class MyFavoriteCoinsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        //getCoinList()
+        getCoinList()
     }
 
     private fun setupRecyclerView() {
