@@ -1,14 +1,11 @@
 package com.example.bitcointicker.core.helpers
 
 import android.content.Context
-import android.util.Log
 import com.example.bitcointicker.R
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class DatabeseHelper {
     fun getUserToken(): String {
@@ -27,18 +24,19 @@ class DatabeseHelper {
 
     data class LoginResult(val user: FirebaseUser?, val errorMessage: String?)
 
-    fun loginIsSuccess(email: String, password: String): LoginResult? {
-        var loginResult: LoginResult? = null
-        val auth = FirebaseAuth.getInstance()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                loginResult = if (task.isSuccessful) {
-                    LoginResult(user = auth.currentUser, errorMessage = "")
-                } else {
-                    LoginResult(user = null, errorMessage = task.exception?.localizedMessage)
-                }
+    suspend fun loginIsSuccess(email: String, password: String, context: Context): LoginResult {
+        return try {
+            val auth = FirebaseAuth.getInstance()
+            val result = auth.signInWithEmailAndPassword(email, password).await()
+            val user = result.user
+            if (user != null) {
+                LoginResult(user, "")
+            } else {
+                LoginResult(null, context.resources.getString(R.string.authentication_failed))
             }
-        return loginResult
+        } catch (e: Exception) {
+            LoginResult(null, e.localizedMessage)
+        }
     }
 
     fun sendEmailVerification(user: FirebaseUser, context: Context) {

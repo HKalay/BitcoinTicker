@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.app.ui.activity.home.HomeActivity
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_login.etPassword
 import kotlinx.android.synthetic.main.activity_login.imgShowHidePasswordLogin
 import kotlinx.android.synthetic.main.activity_login.llSignIn
 import kotlinx.android.synthetic.main.activity_login.loadingProgressLogin
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -77,16 +79,18 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 return@setOnClickListener
             }
 
-            signIn(email = etEmail.text.toString(), password = etPassword.text.toString())
+            lifecycleScope.launch {
+                signIn(email = etEmail.text.toString(), password = etPassword.text.toString())
+            }
         }
     }
 
-    private fun signIn(email: String, password: String) {
+    private suspend fun signIn(email: String, password: String) {
         loadingProgressLogin.visible()
 
-        val loginResult = databeseHelper.loginIsSuccess(email = email, password = password)
-        val user = loginResult?.user
-        val message = loginResult?.errorMessage
+        val loginResult = databeseHelper.loginIsSuccess(email = email, password = password, context = this)
+        val user = loginResult.user
+        val message = loginResult.errorMessage
 
 
         if (user != null) {
