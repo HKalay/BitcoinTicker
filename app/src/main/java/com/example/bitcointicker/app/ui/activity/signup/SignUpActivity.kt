@@ -3,7 +3,7 @@ package com.example.bitcointicker.app.ui.activity.signup
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.example.bitcointicker.R
 import com.example.bitcointicker.app.base.BaseActivity
 import com.example.bitcointicker.core.extensions.gone
@@ -11,7 +11,8 @@ import com.example.bitcointicker.core.extensions.isEmailValid
 import com.example.bitcointicker.core.extensions.loadImage
 import com.example.bitcointicker.core.extensions.showAlertDialog
 import com.example.bitcointicker.core.extensions.visible
-import com.google.firebase.auth.FirebaseAuth
+import com.example.bitcointicker.core.helpers.DatabeseHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_sign_up.btnSignUpCancel
 import kotlinx.android.synthetic.main.activity_sign_up.etEmailSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.etPasswordAgain
@@ -20,8 +21,15 @@ import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordAgainS
 import kotlinx.android.synthetic.main.activity_sign_up.imgShowHidePasswordSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.llSave
 import kotlinx.android.synthetic.main.activity_sign_up.loadingProgressSignUp
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
+
+    @Inject
+    lateinit var databeseHelper:DatabeseHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -89,41 +97,47 @@ class SignUpActivity : BaseActivity(R.layout.activity_sign_up) {
                 showAlertDialog(message = resources.getString(R.string.password_not_match))
                 return@setOnClickListener
             }
-
-            signUp(
-                email = etEmailSignUp.text.toString(), password = etPasswordSignUp.text.toString()
-            )
+            lifecycleScope.launch {
+                signUp(
+                    email = etEmailSignUp.text.toString(),
+                    password = etPasswordSignUp.text.toString()
+                )
+            }
         }
     }
 
-    private fun signUp(email: String, password: String) {
+    private suspend fun signUp(email: String, password: String) {
 
         loadingProgressSignUp.visible()
 
-        val auth = FirebaseAuth.getInstance()
+        val createAccount =
+            databeseHelper.createAccountIsSuccess(email = email, password = password, context = this)
+        val user = createAccount.user
+        val message = createAccount.errorMessage
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                val user = auth.currentUser
-                user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
-                    if (verificationTask.isSuccessful) {
-                        loadingProgressSignUp.gone()
-                        startActivity(Intent(this, SignUpSuccessActivity::class.java))
-
-                        overridePendingTransition(
-                            R.anim.fade_in, R.anim.fade_out
-                        )
-                        finish()
-                    } else {
-                        loadingProgressSignUp.gone()
-                        showAlertDialog(message = verificationTask.exception?.localizedMessage.toString())
-                    }
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener { verificationTask ->
+                if (verificationTask.isSuccessful) {
+                    loadingProgressSignUp.gone()
+                    goSignUpActivity()
+                } else {
+                    loadingProgressSignUp.gone()
+                    showAlertDialog(message = verificationTask.exception?.localizedMessage.toString())
                 }
-            } else {
-                loadingProgressSignUp.gone()
-                showAlertDialog(message = task.exception?.localizedMessage.toString())
             }
+        }else{
+            loadingProgressSignUp.gone()
+            showAlertDialog(message = message.toString())
         }
+    }
+
+    private fun goSignUpActivity(){
+        startActivity(Intent(this, SignUpSuccessActivity::class.java))
+
+        overridePendingTransition(
+            R.anim.fade_in, R.anim.fade_out
+        )
+        finish()
     }
 
     private fun initShowHidePassword() {

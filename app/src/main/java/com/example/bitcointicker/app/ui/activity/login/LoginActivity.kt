@@ -88,7 +88,8 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     private suspend fun signIn(email: String, password: String) {
         loadingProgressLogin.visible()
 
-        val loginResult = databeseHelper.loginIsSuccess(email = email, password = password, context = this)
+        val loginResult =
+            databeseHelper.loginIsSuccess(email = email, password = password, context = this)
         val user = loginResult.user
         val message = loginResult.errorMessage
 
@@ -103,7 +104,11 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 builder.setMessage(resources.getString(R.string.account_not_approved))
                 builder.setPositiveButton(R.string.yes) { dialog, _ ->
                     dialog.dismiss()
-                    databeseHelper.sendEmailVerification(user = user, context = this)
+                    databeseHelper.sendEmailVerification(
+                        user = user,
+                        context = this,
+                        message = resources.getString(R.string.mail_send_again)
+                    )
                 }
 
                 builder.setNegativeButton(R.string.no) { dialog, _ ->

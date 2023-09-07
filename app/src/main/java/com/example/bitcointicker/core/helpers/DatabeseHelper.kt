@@ -9,9 +9,10 @@ import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
 
-    fun signOut(){
+    fun signOut() {
         FirebaseAuth.getInstance().signOut()
     }
+
     fun getUserToken(): String {
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -26,28 +27,48 @@ class DatabeseHelper {
         return userToken
     }
 
-    data class LoginResult(val user: FirebaseUser?, val errorMessage: String?)
+    data class UserResult(val user: FirebaseUser?, val errorMessage: String?)
 
-    suspend fun loginIsSuccess(email: String, password: String, context: Context): LoginResult {
+
+    suspend fun createAccountIsSuccess(
+        email: String,
+        password: String,
+        context: Context
+    ): UserResult {
+        return try {
+            val auth = FirebaseAuth.getInstance()
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            val user = result.user
+            if (user != null) {
+                UserResult(user, "")
+            } else {
+                UserResult(null, context.resources.getString(R.string.something_went_wrong))
+            }
+        } catch (e: Exception) {
+            UserResult(null, e.localizedMessage)
+        }
+    }
+
+    suspend fun loginIsSuccess(email: String, password: String, context: Context): UserResult {
         return try {
             val auth = FirebaseAuth.getInstance()
             val result = auth.signInWithEmailAndPassword(email, password).await()
             val user = result.user
             if (user != null) {
-                LoginResult(user, "")
+                UserResult(user, "")
             } else {
-                LoginResult(null, context.resources.getString(R.string.authentication_failed))
+                UserResult(null, context.resources.getString(R.string.authentication_failed))
             }
         } catch (e: Exception) {
-            LoginResult(null, e.localizedMessage)
+            UserResult(null, e.localizedMessage)
         }
     }
 
-    fun sendEmailVerification(user: FirebaseUser, context: Context) {
+    fun sendEmailVerification(user: FirebaseUser, context: Context, message: String) {
         user.sendEmailVerification()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    context.showAlertDialog(message = context.resources.getString(R.string.mail_send_again))
+                    context.showAlertDialog(message = message)
                 } else {
                     context.showAlertDialog(message = task.exception?.localizedMessage.toString())
                 }
