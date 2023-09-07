@@ -77,6 +77,18 @@ fun Context.showToastShort(message: String) {
     }
 }
 
+fun ImageView.loadImage(url: Drawable) {
+    Glide.with(context)
+        .load(url)
+        .into(this)
+}
+
+fun ImageView.loadImage(url: Int) {
+    Glide.with(context)
+        .load(url)
+        .into(this)
+}
+
 fun ImageView.loadImage(url: String) {
     val shimmer = Shimmer.AlphaHighlightBuilder()
         .setDuration(1200)
