@@ -45,14 +45,9 @@ Bitcoin Ticker offers simple Firebase authentication using email for user regist
 
 Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "Favorites" page.
 
-## Musts of Implementation
+## Technologies Used 
 
-- Developed in Kotlin.
-- Implement dependency injection (e.g., Dagger, Kodein).
-- Follow a proper software design architecture, such as MVVM (Model-View-ViewModel).
-- Use a version control system (Git) and provide a well-structured README.md.
-- Maintain high-quality code.
-- Ensure the master branch always contains the latest version of the code.
+- Material Design for Android
 
 ## Installation
 
