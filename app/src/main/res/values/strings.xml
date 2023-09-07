@@ -24,6 +24,8 @@
     <string name="valid_email_adress">Please enter a valid e-mail address</string>
     <string name="pass_must_6_digits">Your password must be more than 6 digits</string>
     <string name="password_not_match">Passwords do not match</string>
+    <string name="signup_success">Registration was successful. After confirming your account, you can log in.</string>
+    <string name="login">Login</string>
 
     <!--COINS & FAVORITES-->
     <string name="coins">Coins</string>

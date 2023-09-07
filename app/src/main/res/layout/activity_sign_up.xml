@@ -161,5 +161,13 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <ProgressBar
+        android:id="@+id/loadingProgressSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

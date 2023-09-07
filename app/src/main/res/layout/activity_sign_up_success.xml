@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main_color"
+    tools:context=".app.ui.activity.splash.SplashActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="signup_success.json"
+            app:lottie_loop="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/signup_success"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:fontFamily="@font/inter_semibold" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llGoLoginPage"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_12dp_cyan_color"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_login_account" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:includeFontPadding="false"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:fontFamily="@font/inter_semibold" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>
