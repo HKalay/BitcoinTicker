@@ -45,10 +45,17 @@ Bitcoin Ticker offers simple Firebase authentication using email for user regist
 
 Users can add their favorite coins to the Cloud Firestore database by clicking the "Add to Favorites" button on the detail screen. These favorite coins can then be accessed on the "Favorites" page.
 
-## Technologies Used 
+## Technologies Used & Libraries Used
 
-- [Material Design for Android](https://developer.android.com/develop/ui/views/theming/look-and-feel)
-- [Dependency injection with Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Material Design](https://developer.android.com/develop/ui/views/theming/look-and-feel)
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+- [PermissionsExt](https://github.com/fondesa/kpermissions)
+- [Glide](https://bumptech.github.io/glide)
+- [Coroutines](https://developer.android.com/kotlin/coroutines)
+- [Gson]([https://developer.android.com/kotlin/coroutines](https://github.com/google/gson))
+- [Lottie](https://github.com/airbnb/lottie-android)
+- [Retrofit](https://github.com/square/retrofit)
+- [Firebase]([https://github.com/square/retrofit](https://firebase.google.com/))
 
 ## Installation
 
