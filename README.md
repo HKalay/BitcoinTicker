@@ -14,7 +14,6 @@ Bitcoin Ticker is a simple and user-friendly cryptocurrency price tracking app. 
   - [Firebase Authentication](#firebase-authentication)
   - [My Coins Page and Cloud Firestore](#my-coins-page-and-cloud-firestore)
   - [Background Coin Price Tracking](#background-coin-price-tracking)
-- [Positive for Assessment](#positive-for-assessment)
 - [Musts of Implementation](#musts-of-implementation)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -61,13 +60,6 @@ The app includes an Android service that performs network calls to refresh curre
 ### Internal Notification
 
 Bitcoin Ticker sends notifications if there are price changes in the favorite coins, keeping users informed about market fluctuations.
-
-## Positive for Assessment
-
-- The UI design is left to your creativity, but a user-friendly and aesthetically pleasing UI is highly encouraged.
-- Utilize well-known libraries such as Retrofit, Dagger, Glide, etc.
-- Implement smooth animations for screen transitions.
-- Use recognized design patterns (Builder, Factory, Proxy, Actor, etc.).
 
 ## Musts of Implementation
 
