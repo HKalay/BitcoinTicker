@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
@@ -18,18 +17,24 @@ import com.example.bitcointicker.app.ui.activity.login.LoginActivity
 import com.example.bitcointicker.core.extensions.gone
 import com.example.bitcointicker.core.extensions.permissionPostNotificationAllGranted
 import com.example.bitcointicker.core.extensions.visible
+import com.example.bitcointicker.core.helpers.DatabeseHelper
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.bottomNavigation
 import kotlinx.android.synthetic.main.activity_home.containerCoinList
 import kotlinx.android.synthetic.main.activity_home.containerMyFavoriteCoins
 import kotlinx.android.synthetic.main.activity_home.imgAppExit
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val COINS_PAGE = "coins"
 private const val FAVORITES_PAGE = "favorites_page"
 
+@AndroidEntryPoint
 class HomeActivity : BaseActivity(R.layout.activity_home) {
+
+    @Inject
+    lateinit var databeseHelper: DatabeseHelper
 
     private var selectedItem = R.id.navigation_coins
     private var clickedPage = COINS_PAGE
@@ -131,7 +136,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     }
 
     private fun exitAccount() {
-        FirebaseAuth.getInstance().signOut()
+        databeseHelper.signOut()
         sharedPrefManager.setIsPassword(password = "")
         sharedPrefManager.setIsEmail(email = "")
         startActivity(Intent(this, LoginActivity::class.java))

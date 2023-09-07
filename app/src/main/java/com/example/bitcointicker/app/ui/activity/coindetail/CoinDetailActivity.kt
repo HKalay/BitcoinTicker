@@ -3,7 +3,6 @@ package com.example.bitcointicker.app.ui.activity.coindetail
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -22,13 +21,9 @@ import com.example.bitcointicker.core.intent.IntentPutData
 import com.example.bitcointicker.core.netowrk.DataFetchResult
 import com.example.bitcointicker.core.utils.BottomSheetScreenUtils
 import com.example.bitcointicker.data.coin.coindetail.CoinDetailResponseDTO
-import com.example.bitcointicker.data.database.CoinDbFirebaseRealtimeDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_coin_detail.imgCoinImage
-import kotlinx.android.synthetic.main.activity_coin_detail.imgFavorite
 import kotlinx.android.synthetic.main.activity_coin_detail.llUpdateRefreshFrequency
 import kotlinx.android.synthetic.main.activity_coin_detail.tvActivePassiveStatus
 import kotlinx.android.synthetic.main.activity_coin_detail.tvCoinName
@@ -110,7 +105,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             showRefreshFrequencyDialog()
         }
 
-        imgFavorite.setOnClickListener {
+        /*imgFavorite.setOnClickListener {
             val database: DatabaseReference =
                 FirebaseDatabase.getInstance().getReference("Favorites")
             val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
@@ -120,7 +115,7 @@ class CoinDetailActivity : BaseActivity(R.layout.activity_coin_detail) {
             database.child(coinId).setValue(coinDbFirebaseRealtimeDTODTO).addOnSuccessListener { Log.i("Merhaba","123123") }.addOnFailureListener {
                 showAlertDialog(message = it.localizedMessage)
             }
-        }
+        }*/
     }
 
     private fun showRefreshFrequencyDialog() {

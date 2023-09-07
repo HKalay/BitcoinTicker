@@ -8,6 +8,10 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
+
+    fun signOut(){
+        FirebaseAuth.getInstance().signOut()
+    }
     fun getUserToken(): String {
 
         val user = FirebaseAuth.getInstance().currentUser
