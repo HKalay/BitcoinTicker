@@ -37,8 +37,6 @@ When users click on a coin in the search result list, they are directed to a det
 - Input field to define the refresh interval
 - Button to add the coin to the favorites list
 
-The app uses a handler to refresh the current price, ensuring alignment with the activity lifecycle to prevent memory leaks.
-
 ### Firebase Authentication
 
 Bitcoin Ticker offers simple Firebase authentication using email for user registration and login.
