@@ -28,11 +28,11 @@ class DatabeseHelper {
         FirebaseAuth.getInstance().signOut()
     }
 
-    suspend fun getUserToken(): String {
+    suspend fun getUserToken(): String? {
         return try {
             val user = FirebaseAuth.getInstance().currentUser
             val result = user?.getIdToken(true)?.await()
-            return result?.token.toString()
+            return result?.token
         } catch (e: Exception) {
             ""
         }

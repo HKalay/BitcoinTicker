@@ -27,7 +27,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     }
 
     private suspend fun login() {
-        if (databeseHelper.getUserToken().isEmpty()) {
+        if (databeseHelper.getUserToken().isNullOrEmpty()) {
             goLoginActivity()
         } else {
             goHomeActivity()
