@@ -20,7 +20,7 @@ import kotlinx.coroutines.tasks.await
 
 class DatabeseHelper {
 
-    val firebaseDbReferance = "Favorites"
+    private val firebaseDbReferance = "Favorites"
 
     data class UserResult(val user: FirebaseUser?, val errorMessage: String?)
 
@@ -89,69 +89,100 @@ class DatabeseHelper {
             return
         }
 
-        val database: DatabaseReference =
-            FirebaseDatabase.getInstance().getReference(firebaseDbReferance)
-        val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
-            id = coinId,
-            name = coinDetailResponseDTO.name.toString(),
-            symbol = coinDetailResponseDTO.symbol
-        )
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
 
+        if (uid != null) {
+            val database: DatabaseReference =
+                FirebaseDatabase.getInstance().getReference(firebaseDbReferance)
 
-        database.child(coinId).setValue(coinDbFirebaseRealtimeDTODTO)
-            .addOnFailureListener {
-                context.showAlertDialog(message = it.localizedMessage)
-            }
+            val coinDbFirebaseRealtimeDTODTO = CoinDbFirebaseRealtimeDTO(
+                id = coinId,
+                name = coinDetailResponseDTO.name.toString(),
+                symbol = coinDetailResponseDTO.symbol
+            )
+
+            val childPath = "users/$uid/$coinId"
+
+            database.child(childPath).setValue(coinDbFirebaseRealtimeDTODTO)
+                .addOnSuccessListener {
+
+                }
+                .addOnFailureListener { e ->
+                    context.showAlertDialog(message = e.localizedMessage)
+                }
+        }
     }
 
     fun deleteData(childId: String, context: Context) {
-        val database = FirebaseDatabase.getInstance()
-        val reference = database.getReference(firebaseDbReferance)
-        reference.child(childId).removeValue()
-            .addOnFailureListener { e ->
-                context.showAlertDialog(message = e.localizedMessage)
-            }
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+        if (uid != null) {
+            val childPath = "users/$uid/$childId"
+            val database = FirebaseDatabase.getInstance()
+            val reference = database.getReference(firebaseDbReferance)
+            reference.child(childPath).removeValue()
+                .addOnFailureListener { e ->
+                    context.showAlertDialog(message = e.localizedMessage)
+                }
+        }
     }
 
     suspend fun childExistsData(childId: String): Boolean {
         return try {
-            val database = FirebaseDatabase.getInstance()
-            val reference = database.getReference(firebaseDbReferance)
-            val snapshot = reference.child(childId).get().await()
-            return snapshot.exists()
+            val user = FirebaseAuth.getInstance().currentUser
+            val uid = user?.uid
+            if (uid != null) {
+                val childPath = "users/$uid/$childId"
+                val database = FirebaseDatabase.getInstance()
+                val reference = database.getReference(firebaseDbReferance)
+                val snapshot = reference.child(childPath).get().await()
+                return snapshot.exists()
+            } else {
+                return false
+            }
         } catch (e: Exception) {
             return false
         }
     }
 
     fun getFavoritesList(onDataReceived: (List<CoinItemDTO>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val reference = database.getReference(firebaseDbReferance)
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+
+        if (uid != null) {
+
+            val userFavoritesPath = "$firebaseDbReferance/users/$uid"
+
+            val database = FirebaseDatabase.getInstance()
+            val reference = database.getReference(userFavoritesPath)
 
 
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dataList = mutableListOf<CoinItemDTO>()
+            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val dataList = mutableListOf<CoinItemDTO>()
 
-                for (childSnapshot in dataSnapshot.children) {
-                    val id: String = childSnapshot.child("id").getValue(String::class.java)!!
-                    val name: String = childSnapshot.child("name").getValue(String::class.java)!!
-                    val symbol: String =
-                        childSnapshot.child("symbol").getValue(String::class.java)!!
+                    for (childSnapshot in dataSnapshot.children) {
+                        val id: String = childSnapshot.child("id").getValue(String::class.java)!!
+                        val name: String =
+                            childSnapshot.child("name").getValue(String::class.java)!!
+                        val symbol: String =
+                            childSnapshot.child("symbol").getValue(String::class.java)!!
 
-                    val coinResponseDTO = CoinResponseDTO(
-                        id = id,
-                        symbol = symbol,
-                        name = name
-                    )
-                    dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
+                        val coinResponseDTO = CoinResponseDTO(
+                            id = id,
+                            symbol = symbol,
+                            name = name
+                        )
+                        dataList.add(CoinItemDTO(coinResponseDTO = coinResponseDTO))
+                    }
+                    onDataReceived(dataList)
                 }
-                onDataReceived(dataList)
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
+                override fun onCancelled(databaseError: DatabaseError) {
 
-            }
-        })
+                }
+            })
+        }
     }
 }
