@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Loodos BitcoinTicker</string>
+
+    <!--GENERAL-->
+    <string name="or">Veya</string>
+    <string name="add">Ekle</string>
+    <string name="update">Güncelle</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="ok">Tamam</string>
+    <string name="active">Aktif</string>
+    <string name="passive">Pasif</string>
+    <string name="save">Kaydet</string>
+    <string name="cancel">İptal</string>
+
+    <!--LOGIN & SIGNUP-->
+    <string name="enter_email">E-posta adresinizi girin</string>
+    <string name="enter_password">Şifrenizi giriniz</string>
+    <string name="enter_password_again">Şifrenizi tekrar giriniz</string>
+    <string name="sing_in">Oturum Aç</string>
+    <string name="sign_up">Üye Ol</string>
+    <string name="all_fi_must_filled">Kayıt için tüm alanlar doldurulmalıdır</string>
+    <string name="all_fi_have_filled">Giriş yapmak için tüm alanları doldurmanız gerekir</string>
+    <string name="valid_email_adress">Lütfen geçerli bir e-posta adresi girin</string>
+    <string name="pass_must_6_digits">Parolanız 6 haneden fazla olmalıdır</string>
+    <string name="password_not_match">Şifreler eşleşmiyor</string>
+    <string name="signup_success">Kayıt işlemi başarılı oldu. Gelen mail ile hesabınızı onayladıktan sonra giriş yapabilirsiniz.</string>
+    <string name="login">Giriş Yap</string>
+    <string name="account_not_approved">Hesabınız onaylanmadı. Tekrar bir onay e-postası almak ister misiniz?</string>
+
+    <!--COINS & FAVORITES-->
+    <string name="coins">Coins</string>
+    <string name="favorites">Favoriler</string>
+    <string name="search">Ara</string>
+
+    <!--WARNING MESSAGES-->
+    <string name="something_went_wrong">Bir şeyler ters gitti!</string>
+    <string name="no_internet">İnternet bağlantısı yok</string>
+    <string name="authentication_failed">Kimlik doğrulama başarısız</string>
+    <string name="not_found_favorite_data">Sık kullanılanlarda kayıtlı veri bulunamadı!</string>
+
+    <!--COIN DETAIL-->
+    <string name="coin_detail">Coin Detay</string>
+    <string name="price">Fiyat</string>
+    <string name="change_24_hours">Son 24 saat içindeki değişim</string>
+    <string name="not_found_24_hours">Son 24 saat için veri bulunamadı</string>
+    <string name="hashing_algorithm">Hashing Algoritması</string>
+    <string name="hash_algorithm_not_found">Hashing algoritması bulunamadı</string>
+    <string name="description">Açıklama</string>
+    <string name="description_not_found">Açıklama bulunamadı</string>
+    <string name="page_refresh_frequency">Veri yenileme sıklığı</string>
+
+    <!--DIALOG-->
+    <string name="exit_question">Uygulamadan çıkmak istediğinizden emin misiniz?</string>
+    <string name="renewal_frequency_status">Yenileme sıklığı durumu</string>
+    <string name="refresh_frequency">Yenileme sıklığı (Saniye)</string>
+    <string name="second_not_empty">Saniye boş veya 0 olamaz</string>
+    <string name="warning">UYARI</string>
+    <string name="exit_account">HESAPTAN ÇIKMA</string>
+    <string name="exit_account_question">Hesaptan çıkmak istediğinizden emin misiniz?</string>
+    <string name="mail_send_again">Onay e-postası tekrar gönderildi</string>
+
+</resources>
